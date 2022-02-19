@@ -1,0 +1,11 @@
+.card__container {
+    // style={{ width: 300, marginBottom: 50 }}
+    width: 300px;
+    margin-bottom: 50px;
+    height: fit-content;
+}
+
+.ant-card {
+    height: fit-content !important;
+    margin-left: 50px !important;
+}

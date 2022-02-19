@@ -1,8 +1,25 @@
-.logo {
-    background-color: yellow;
-    width: 100%;
-    justify-content: center;
-    height: 64px;
-    line-height: 64px;
-    margin-bottom: 12px;
+// .logo {
+//     background-color: yellow;
+//     width: 100%;
+//     justify-content: center;
+//     height: 64px;
+//     line-height: 64px;
+//     margin-bottom: 12px;
+// }
+.sider {
+    position: relative;
+    &__logo {
+        background-color: yellow;
+        width: 100%;
+        justify-content: center;
+        height: 64px;
+        line-height: 64px;
+        margin-bottom: 12px;
+        position: sticky;
+        top: 0;
+    }
+    &__menu {
+        position: sticky;
+        top: 76px;
+    }
 }

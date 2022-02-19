@@ -15,8 +15,13 @@ const SideBar = (props: {
 }) => {
   const { Sider } = Layout;
   return (
-    <Sider trigger={null} collapsible collapsed={props.collapsed}>
-      <Space className="logo">
+    <Sider
+      trigger={null}
+      collapsible
+      collapsed={props.collapsed}
+      className="sider"
+    >
+      <Space className="sider__logo">
         <Image src="" />
         {props.collapsed ? <></> : <span> MemeVeda</span>}
       </Space>
@@ -25,6 +30,7 @@ const SideBar = (props: {
         mode="inline"
         onClick={(e) => props.MenuChange(e)}
         selectedKeys={[props.selectedkey]}
+        className="sider__menu"
       >
         <Menu.Item key="1" icon={<BulbOutlined />}>
           Create Meme
