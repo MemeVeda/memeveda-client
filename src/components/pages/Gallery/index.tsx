@@ -3,7 +3,7 @@ import { Content } from "antd/lib/layout/layout";
 import CustomCard from "../../layout/Card";
 import "./gallery.scss";
 import { MEME_STORAGE } from "../../utils/contant";
-import { MemeCardType } from "../../utils/types";
+import { MemeCardType } from "../../types/types";
 
 const Gallery = () => {
   const [memeData, setmemeData] = useState(

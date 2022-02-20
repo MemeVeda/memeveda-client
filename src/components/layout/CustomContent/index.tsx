@@ -1,6 +1,3 @@
-import React from "react";
-import { Tabs } from "antd";
-import { Content } from "antd/lib/layout/layout";
 import MemeGenerator from "../../pages/MemeGenerator";
 import Gallery from "../../pages/Gallery";
 import About from "../../pages/About";
