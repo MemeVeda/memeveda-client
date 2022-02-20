@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { List, Avatar, Space, Card, Image } from "antd";
+import { useState, useEffect } from "react";
+import { Avatar, Space, Card } from "antd";
 import {
   DislikeOutlined,
   DownloadOutlined,
@@ -8,7 +8,9 @@ import {
 } from "@ant-design/icons";
 import Badge from "../Badge/Badge";
 import "./Card.scss";
-import { MemeCardType } from "../../utils/types";
+import { MemeCardType, UserType } from "../../types/types";
+import default_boy from "../../assets/default_boy.png";
+import { MEME_STORAGE } from "../../utils/contant";
 
 const CustomCard = (props: {
   cardDetail: MemeCardType;
@@ -16,6 +18,12 @@ const CustomCard = (props: {
 }) => {
   const { Meta } = Card;
 
+  const [cardOwner, setcardOwner] = useState<UserType>({
+    user_id: "",
+    user_desc: "",
+    img_url: default_boy,
+    user_name: "",
+  });
   const likeIncrement = () => {
     let newData: MemeCardType = {
       ...props.cardDetail,
@@ -37,6 +45,20 @@ const CustomCard = (props: {
     };
     props.updateDetail(newData);
   };
+
+  useEffect(() => {
+    let users = JSON.parse(
+      sessionStorage.getItem(`${MEME_STORAGE}users`) || "{}"
+    );
+    if (users && props.cardDetail.owner_id) {
+      let user = users.find((user: UserType) => {
+        return props.cardDetail.owner_id === user.user_id;
+      });
+      if (user) {
+        setcardOwner(user);
+      }
+    }
+  }, []);
 
   return (
     <Card
@@ -87,9 +109,9 @@ const CustomCard = (props: {
       ]}
     >
       <Meta
-        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-        title="Card title"
-        description="This is the description"
+        avatar={<Avatar src={cardOwner.img_url} />}
+        title={cardOwner.user_name}
+        description={cardOwner.user_desc}
       />
     </Card>
   );

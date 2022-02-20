@@ -4,5 +4,13 @@ export interface MemeCardType {
   like: number;
   dislike: number;
   download: number;
+  owner_id?: string;
   tags?: string[];
+}
+
+export interface UserType {
+  user_id: string;
+  img_url?: string;
+  user_name: string;
+  user_desc: string;
 }

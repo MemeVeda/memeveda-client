@@ -1,5 +1,5 @@
 import React from "react";
-import { Space, Popover } from "antd";
+import { Space } from "antd";
 import "./Badge.scss";
 
 const Badge = (props: {

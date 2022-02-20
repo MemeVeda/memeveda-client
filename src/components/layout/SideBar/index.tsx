@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Layout, Menu, Space } from "antd";
 import {
-  UserOutlined,
   VideoCameraOutlined,
   UploadOutlined,
   BulbOutlined,
