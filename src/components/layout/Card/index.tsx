@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { List, Avatar, Space, Card } from "antd";
+import { List, Avatar, Space, Card, Image } from "antd";
 import {
   DislikeOutlined,
   DownloadOutlined,
@@ -8,56 +8,82 @@ import {
 } from "@ant-design/icons";
 import Badge from "../Badge/Badge";
 import "./Card.scss";
+import { MemeCardType } from "../../utils/types";
 
-const CustomCard = (props: { href: string }) => {
+const CustomCard = (props: {
+  cardDetail: MemeCardType;
+  updateDetail: Function;
+}) => {
   const { Meta } = Card;
 
-  const [like, setlike] = useState(0);
-  const [dislike, setdislike] = useState(0);
-  const [download, setdownload] = useState(0);
   const likeIncrement = () => {
-    setlike(like + 1);
+    let newData: MemeCardType = {
+      ...props.cardDetail,
+      like: props.cardDetail.like + 1,
+    };
+    props.updateDetail(newData);
   };
   const dislikeIncrement = () => {
-    setdislike(dislike + 1);
+    let newData: MemeCardType = {
+      ...props.cardDetail,
+      dislike: props.cardDetail.dislike + 1,
+    };
+    props.updateDetail(newData);
   };
   const downloadIncrement = () => {
-    setdownload(download + 1);
+    let newData: MemeCardType = {
+      ...props.cardDetail,
+      download: props.cardDetail.download + 1,
+    };
+    props.updateDetail(newData);
   };
+
   return (
     <Card
       style={{ width: 300, marginBottom: 50 }}
       className="card__container"
-      cover={<img alt="example" src={props.href} />}
+      cover={
+        <img
+          className="card__container-img"
+          alt="example"
+          src={props.cardDetail.href}
+        />
+      }
       actions={[
         <Badge
           component={
-            <Space>
+            <Space className="card__container-icon">
               <LikeOutlined />
-              <span>{like}</span>
+              <span>{props.cardDetail.like}</span>
             </Space>
           }
           increment={likeIncrement}
         />,
         <Badge
           component={
-            <Space>
+            <Space className="card__container-icon">
               <DislikeOutlined />
-              <span>{dislike}</span>
+              <span>{props.cardDetail.dislike}</span>
             </Space>
           }
           increment={dislikeIncrement}
         />,
         <Badge
           component={
-            <Space>
+            <Space className="card__container-icon">
               <DownloadOutlined />
-              <span>{download}</span>
+              <span>{props.cardDetail.download}</span>
             </Space>
           }
           increment={downloadIncrement}
         />,
-        <Badge component={<UploadOutlined />} />,
+        <Badge
+          component={
+            <Space className="card__container-icon">
+              <UploadOutlined />
+            </Space>
+          }
+        />,
       ]}
     >
       <Meta
