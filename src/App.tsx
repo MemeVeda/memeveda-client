@@ -4,6 +4,7 @@ import "./App.scss";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import SideBar from "./components/layout/SideBar";
 import CustomContent from "./components/layout/CustomContent";
+import { memeDemoData } from "./components/db/memeDemoData";
 const { Header, Content } = Layout;
 
 function App() {
@@ -14,9 +15,10 @@ function App() {
   };
 
   const MenuChange = (event: any) => {
-    // console.log(event);
     setselectedKey(event.key);
   };
+
+  memeDemoData();
   return (
     <Layout className="App">
       <SideBar

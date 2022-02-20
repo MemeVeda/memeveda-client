@@ -1,11 +1,46 @@
 .card__container {
     // style={{ width: 300, marginBottom: 50 }}
     width: 300px;
-    margin-bottom: 50px;
+    // margin-bottom: 50px;
     height: fit-content;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    break-inside: avoid;
+    &-img {
+        width: 100%;
+        object-fit: cover;
+    }
 }
 
 .ant-card {
     height: fit-content !important;
-    margin-left: 50px !important;
+    // margin-left: 50px !important;
+}
+
+.card__container-icon {
+    transition: fade 0.2s;
+}
+
+@keyframes fade {
+    0% {
+        color: transparent;
+    }
+    50% {
+        color: #e23b3b;
+    }
+    100% {
+        color: transparent;
+    }
+}
+
+@keyframes size {
+    0% {
+        padding: 10px 12px 8px;
+    }
+    50% {
+        padding: 14px 16px 12px;
+        margin-top: -4px;
+    }
+    100% {
+        padding: 10px 12px 8px;
+    }
 }

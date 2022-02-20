@@ -1,3 +1,16 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: "Inter", sans-serif;
+}
+
 .App {
     border: 0.2rem solid black;
     min-height: 100vh !important;
@@ -24,13 +37,4 @@
 
 #components-layout-demo-custom-trigger .trigger:hover {
     color: #1890ff;
-}
-
-// #components-layout-demo-custom-trigger .logo {
-//     height: 32px;
-//     margin: 16px;
-//     background: rgba(255, 255, 255, 0.3);
-// }
-.site-layout .site-layout-background {
-    background: #fff;
 }
