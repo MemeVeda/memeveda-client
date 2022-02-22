@@ -63,7 +63,7 @@ export const memeDemoData = () => {
       user_id: "01",
       user_name: "Shubham Thorat",
       img_url: `${AVATAR_API}`,
-      user_desc: "Very Bad meme",
+      user_desc: "Very Bad meme he has very unique minewhich no ne exist",
     },
     {
       user_id: "02",

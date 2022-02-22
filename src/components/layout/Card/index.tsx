@@ -4,14 +4,13 @@ import {
   DislikeOutlined,
   DownloadOutlined,
   LikeOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import Badge from "../Badge/Badge";
 import "./Card.scss";
 import { MemeCardType, UserType } from "../../types/types";
-import default_boy from "../../assets/default_boy.png";
-import { MEME_STORAGE } from "../../utils/contant";
-
+import { AVATAR_API, MEME_STORAGE } from "../../utils/contant";
+import { saveAs } from "file-saver";
+import axios from "axios";
 const CustomCard = (props: {
   cardDetail: MemeCardType;
   updateDetail: Function;
@@ -21,7 +20,7 @@ const CustomCard = (props: {
   const [cardOwner, setcardOwner] = useState<UserType>({
     user_id: "",
     user_desc: "",
-    img_url: default_boy,
+    img_url: AVATAR_API,
     user_name: "",
   });
   const likeIncrement = () => {
@@ -39,6 +38,8 @@ const CustomCard = (props: {
     props.updateDetail(newData);
   };
   const downloadIncrement = () => {
+    saveAs(props.cardDetail.href, "image");
+
     let newData: MemeCardType = {
       ...props.cardDetail,
       download: props.cardDetail.download + 1,
@@ -47,15 +48,17 @@ const CustomCard = (props: {
   };
 
   useEffect(() => {
-    let users = JSON.parse(
-      sessionStorage.getItem(`${MEME_STORAGE}users`) || "{}"
-    );
-    if (users && props.cardDetail.owner_id) {
-      let user = users.find((user: UserType) => {
-        return props.cardDetail.owner_id === user.user_id;
-      });
-      if (user) {
-        setcardOwner(user);
+    if (props.cardDetail.owner_id) {
+      let users = JSON.parse(
+        sessionStorage.getItem(`${MEME_STORAGE}users`) || "{}"
+      );
+      if (users && props.cardDetail.owner_id) {
+        let user = users.find((user: UserType) => {
+          return props.cardDetail.owner_id === user.user_id;
+        });
+        if (user) {
+          setcardOwner(user);
+        }
       }
     }
   }, []);
@@ -98,13 +101,6 @@ const CustomCard = (props: {
             </Space>
           }
           increment={downloadIncrement}
-        />,
-        <Badge
-          component={
-            <Space className="card__container-icon">
-              <UploadOutlined />
-            </Space>
-          }
         />,
       ]}
     >
