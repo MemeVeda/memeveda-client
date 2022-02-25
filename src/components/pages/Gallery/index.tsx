@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Content } from "antd/lib/layout/layout";
 import CustomCard from "../../layout/Card";
 import "./gallery.scss";
-import { MEME_STORAGE } from "../../utils/contant";
 import { MemeCardType } from "../../types/types";
 import axios from "axios";
 

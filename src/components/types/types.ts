@@ -14,3 +14,11 @@ export interface UserType {
   user_name: string;
   user_desc: string;
 }
+
+interface CropType {
+  unit: string;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}

@@ -1,12 +1,9 @@
+import { Button } from "antd";
 import React, { useState } from "react";
-import { Content } from "antd/lib/layout/layout";
-import "./MemeGenerator.scss";
-import { Image, Space } from "antd";
-
 import ReactCrop from "react-image-crop";
 import "react-image-crop/src/ReactCrop.scss";
+import { Image } from "antd";
 
-import "react-image-crop/src/ReactCrop.scss";
 interface CropType {
   unit: string;
   width: number;
@@ -14,13 +11,14 @@ interface CropType {
   x: number;
   y: number;
 }
-const MemeGenerator = () => {
+
+const Cropper = () => {
   const [src, setfile] = useState(null);
   const [inputImage, setinputImage] = useState<HTMLImageElement>();
   const [crop, setCrop] = useState<CropType>(); //   { aspect: 16 / 9 }
-  const [wantcrop, setwantcrop] = useState(false);
+  const [result, setResult] = useState("");
+
   const handleFileChange = (e: any) => {
-    // setinputhref(e.target.files[0]);
     //@ts-ignore
     setfile(URL.createObjectURL(e.target.files[0]));
   };
@@ -56,41 +54,33 @@ const MemeGenerator = () => {
     );
 
     const base64Image = canvas.toDataURL("image/jpeg");
-    //@ts-ignore
-    setfile(base64Image);
+    setResult(base64Image);
   };
+
   return (
-    <Content className="memegenerator__container">
-      <div className="memegenerator__container-box memegenerator__container-box-left">
-        {src && wantcrop ? (
+    <div>
+      <div>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+      </div>
+      {src && (
+        <div>
           <ReactCrop
             src={src}
             onImageLoaded={setinputImage}
             crop={crop}
             onChange={setCrop}
           />
-        ) : src ? (
-          <Image preview={false} src={src} />
-        ) : (
-          <></>
-        )}
-      </div>
-      <div className="memegenerator__container-box memegenerator__container-box-right">
-        <input type="file" accept="image/jpeg" onChange={handleFileChange} />
+          <Button onClick={getCroppedImg}> Crop Image</Button>
+        </div>
+      )}
 
-        <Space>
-          <input
-            type="checkbox"
-            name="crop"
-            onChange={(e) => setwantcrop(!wantcrop)}
-            disabled={src === null ? true : false}
-          />
-          <span>Crop</span>
-          <button onClick={getCroppedImg}> crop</button>
-        </Space>
-      </div>
-    </Content>
+      {result && (
+        <div>
+          <Image src={result} />
+        </div>
+      )}
+    </div>
   );
 };
 
-export default MemeGenerator;
+export default Cropper;
