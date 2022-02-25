@@ -10,7 +10,7 @@ import "./Card.scss";
 import { MemeCardType, UserType } from "../../types/types";
 import { AVATAR_API, MEME_STORAGE } from "../../utils/contant";
 import { saveAs } from "file-saver";
-import axios from "axios";
+
 const CustomCard = (props: {
   cardDetail: MemeCardType;
   updateDetail: Function;
@@ -37,9 +37,10 @@ const CustomCard = (props: {
     };
     props.updateDetail(newData);
   };
+
   const downloadIncrement = () => {
     saveAs(props.cardDetail.href, "image");
-
+    // "https://i.imgur.com/TuRB5mj.jpg"
     let newData: MemeCardType = {
       ...props.cardDetail,
       download: props.cardDetail.download + 1,
