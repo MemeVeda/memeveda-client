@@ -58,6 +58,8 @@ const MemeGenerator = () => {
     const base64Image = canvas.toDataURL("image/jpeg");
     //@ts-ignore
     setfile(base64Image);
+
+    setwantcrop(!wantcrop);
   };
   return (
     <Content className="memegenerator__container">
@@ -83,6 +85,7 @@ const MemeGenerator = () => {
             type="checkbox"
             name="crop"
             onChange={(e) => setwantcrop(!wantcrop)}
+            checked={wantcrop === true ? true : false}
             disabled={src === null ? true : false}
           />
           <span>Crop</span>
