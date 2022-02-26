@@ -5,6 +5,7 @@
     margin-bottom: 1rem;
     &-box {
         border: 2px solid #000000;
+        padding: 0.5rem;
         // height: 30rem;
     }
     &-box-left {
@@ -18,5 +19,10 @@
         align-items: center;
         max-width: 40rem;
         max-height: 30rem;
+    }
+    &-box-right {
+        &__upload {
+            padding: 0.5rem;
+        }
     }
 }
