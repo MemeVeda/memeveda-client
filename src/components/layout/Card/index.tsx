@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { List, Avatar, Space, Card, Image } from "antd";
+import { useState, useEffect } from "react";
+import { Avatar, Space, Card } from "antd";
 import {
   DislikeOutlined,
   DownloadOutlined,
   LikeOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import Badge from "../Badge/Badge";
 import "./Card.scss";
-import { MemeCardType } from "../../utils/types";
+import { MemeCardType, UserType } from "../../types/types";
+import { AVATAR_API, MEME_STORAGE } from "../../utils/contant";
+import { saveAs } from "file-saver";
 
 const CustomCard = (props: {
   cardDetail: MemeCardType;
@@ -16,6 +17,12 @@ const CustomCard = (props: {
 }) => {
   const { Meta } = Card;
 
+  const [cardOwner, setcardOwner] = useState<UserType>({
+    user_id: "",
+    user_desc: "",
+    img_url: AVATAR_API,
+    user_name: "",
+  });
   const likeIncrement = () => {
     let newData: MemeCardType = {
       ...props.cardDetail,
@@ -30,13 +37,32 @@ const CustomCard = (props: {
     };
     props.updateDetail(newData);
   };
+
   const downloadIncrement = () => {
+    saveAs(props.cardDetail.href, "image");
+    // "https://i.imgur.com/TuRB5mj.jpg"
     let newData: MemeCardType = {
       ...props.cardDetail,
       download: props.cardDetail.download + 1,
     };
     props.updateDetail(newData);
   };
+
+  useEffect(() => {
+    if (props.cardDetail.owner_id) {
+      let users = JSON.parse(
+        sessionStorage.getItem(`${MEME_STORAGE}users`) || "{}"
+      );
+      if (users && props.cardDetail.owner_id) {
+        let user = users.find((user: UserType) => {
+          return props.cardDetail.owner_id === user.user_id;
+        });
+        if (user) {
+          setcardOwner(user);
+        }
+      }
+    }
+  }, []);
 
   return (
     <Card
@@ -77,19 +103,12 @@ const CustomCard = (props: {
           }
           increment={downloadIncrement}
         />,
-        <Badge
-          component={
-            <Space className="card__container-icon">
-              <UploadOutlined />
-            </Space>
-          }
-        />,
       ]}
     >
       <Meta
-        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-        title="Card title"
-        description="This is the description"
+        avatar={<Avatar src={cardOwner.img_url} />}
+        title={cardOwner.user_name}
+        description={cardOwner.user_desc}
       />
     </Card>
   );

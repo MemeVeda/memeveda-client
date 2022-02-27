@@ -1,3 +1,4 @@
+@import "./index.scss";
 body {
     margin: 0;
     padding: 0;
@@ -12,16 +13,10 @@ code {
 }
 
 .App {
-    border: 0.2rem solid black;
     min-height: 100vh !important;
 }
 
 .site-layout-background {
-    // style={{
-    //     margin: "24px 16px",
-    //     padding: 24,
-    //     minHeight: 280,
-    //   }}
     margin-bottom: 16px;
     padding: 24px;
     min-height: 280;
@@ -36,5 +31,5 @@ code {
 }
 
 #components-layout-demo-custom-trigger .trigger:hover {
-    color: #1890ff;
+    color: $blue;
 }

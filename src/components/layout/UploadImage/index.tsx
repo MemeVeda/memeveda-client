@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useState } from 'react'
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import CropFunctionality from './crop';
