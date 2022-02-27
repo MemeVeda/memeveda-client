@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { List, message, Avatar, Modal, Image, Button } from "antd";
 import "./TemplateModal.scss";
-import InfiniteScroll from "react-infinite-scroll-component";
+
 import axios from "axios";
 
 const fakeDataUrl =
