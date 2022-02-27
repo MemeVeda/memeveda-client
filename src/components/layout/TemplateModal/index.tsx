@@ -20,13 +20,20 @@ const TemplateModal = (props: {
     await axios
       // .get("https://jsonplaceholder.typicode.com/photos")
       // .get("https://ibb.co/1s6jHzr")
+      // .get("https://api.imgflip.com/get_memes")
       .get("https://api.imgflip.com/get_memes")
       // .get("https://i.imgur.com/TuRB5mj.jpg")
+      // .get("http://localhost:5000/randomapi", {
+      //   headers: {
+      //     "Access-Control-Allow-Origin": "*",
+      //   },
+      // })
       .then((res) => {
         // console.log(res.data.data.memes);
-        setData(res.data.data.memes);
-        // console.log(res);
-        // setData(res.data);
+        // setData(res.data.data.memes);
+        // console.log(res.data);
+        console.log(res.data.data.memes.splice(0, 10));
+        setData(res.data.data.memes.splice(0, 10));
       });
   };
   useEffect(() => {

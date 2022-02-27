@@ -1,3 +1,4 @@
+import { UploadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import "./UploadButton.scss";
 
@@ -12,11 +13,15 @@ const UploadButton = (props: {
   };
   return (
     <>
-      <Button type="primary" onClick={handleClick}>
+      <Button
+        className="custom-file-input"
+        type="primary"
+        onClick={handleClick}
+        icon={<UploadOutlined />}
+      >
         {props.name}
       </Button>
       <input
-        className="custom-file-input"
         type="file"
         accept="image/jpeg"
         onChange={(e) => props.handleFileChange(e)}

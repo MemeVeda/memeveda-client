@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import ReactCrop from "react-image-crop";
 import { Content } from "antd/lib/layout/layout";
-import { ScissorOutlined } from "@ant-design/icons";
+import {
+  ScissorOutlined,
+  UploadOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
 import UploadButton from "../../layout/UploadButton";
-import { Alert, Button, Checkbox, Image, Input, Space, Upload } from "antd";
+import {
+  Alert,
+  Button,
+  Checkbox,
+  Image,
+  Input,
+  message,
+  Space,
+  Upload,
+} from "antd";
 import "./MemeGenerator.scss";
 import "react-image-crop/src/ReactCrop.scss";
 import TemplateModal from "../../layout/TemplateModal";
+import Notification from "../../layout/Notification";
 
 interface CropType {
   unit: string;
@@ -23,7 +37,7 @@ const MemeGenerator = () => {
   const [error, seterror] = useState("");
   const [visible, setvisible] = useState(false);
   const handleFileChange = (e: any) => {
-    // setinputhref(e.target.files[0]);
+    // setinputImage(e);
     //@ts-ignore
     setfile(URL.createObjectURL(e.target.files[0]));
   };
@@ -37,10 +51,11 @@ const MemeGenerator = () => {
     canvas.width = crop.width;
     canvas.height = crop.height;
     // canvas.setAttribute()
-    canvas.setAttribute("crossorigin", "anonymous");
+    // canvas.setAttribute("crossorigin", "anonymous");
     const ctx = canvas.getContext("2d");
     if (canvas.width === 0 || canvas.height === 0) {
-      seterror("Select Image to crop");
+      // seterror("Select Area to crop");
+      Notification({ message: "Select Area to crop" });
       return;
     } else {
       seterror("");
@@ -65,11 +80,13 @@ const MemeGenerator = () => {
       crop.height
     );
 
-    console.log(canvas);
-    const base64Image = canvas.toDataURL("image/jpeg");
-    console.log(base64Image);
-    //@ts-ignore
-    setfile(base64Image);
+    try {
+      const base64Image = canvas.toDataURL("image/jpeg");
+      //@ts-ignore
+      setfile(base64Image);
+    } catch (error) {
+      Notification({ message: "Not able to crop" });
+    }
 
     setwantcrop(!wantcrop);
   };
@@ -77,8 +94,12 @@ const MemeGenerator = () => {
     setvisible(false);
   };
   const onChangeHandler = (item: any) => {
-    //@ts-ignore
-    setfile(item.url);
+    fetch(item.url)
+      .then((res) => res.blob())
+      .then((blob) => {
+        //@ts-ignore
+        setfile(URL.createObjectURL(blob));
+      });
     setvisible(false);
   };
   return (
@@ -102,13 +123,13 @@ const MemeGenerator = () => {
             onChange={setCrop}
           />
         ) : src ? (
-          <Image preview={false} src={src} />
+          <Image preview={false} src={src} crossOrigin="anonymous" />
         ) : (
           <></>
         )}
       </div>
       <div className="memegenerator__container-box memegenerator__container-box-right">
-        {error ? (
+        {/* {error ? (
           <Alert
             type="error"
             message={error}
@@ -117,38 +138,46 @@ const MemeGenerator = () => {
           />
         ) : (
           <></>
-        )}
+        )} */}
 
-        <Space>
+        <div className="memegenerator__container-box-right-btnholder">
           <UploadButton
             handleFileChange={handleFileChange}
-            name="Upload File"
+            name="Upload file"
             id="browser_input"
           />
-          <Button onClick={() => setvisible(true)}> Template </Button>
-          {/* </Space>
-        <Space> */}
-          <Checkbox
-            onChange={(e) => setwantcrop(!wantcrop)}
-            checked={wantcrop === true ? true : false}
-            disabled={src === null ? true : false}
+          <Button
+            className="custom-file-input"
+            type="dashed"
+            danger
+            icon={<UploadOutlined />}
+            onClick={() => setvisible(true)}
+          >
+            {" "}
+            Upload new template{" "}
+          </Button>
+        </div>
+
+        <Checkbox
+          onChange={(e) => setwantcrop(!wantcrop)}
+          checked={wantcrop === true ? true : false}
+          disabled={src === null ? true : false}
+        >
+          Crop
+        </Checkbox>
+        {wantcrop ? (
+          <Button
+            type="dashed"
+            shape="round"
+            danger
+            icon={<ScissorOutlined />}
+            onClick={getCroppedImg}
           >
             Crop
-          </Checkbox>
-          {wantcrop ? (
-            <Button
-              type="dashed"
-              shape="round"
-              danger
-              icon={<ScissorOutlined />}
-              onClick={getCroppedImg}
-            >
-              Crop
-            </Button>
-          ) : (
-            <></>
-          )}
-        </Space>
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
     </Content>
   );

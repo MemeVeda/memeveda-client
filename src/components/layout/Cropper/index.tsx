@@ -76,7 +76,7 @@ const Cropper = () => {
 
       {result && (
         <div>
-          <Image src={result} />
+          <Image src={result} crossOrigin="anonymous" />
         </div>
       )}
     </div>
