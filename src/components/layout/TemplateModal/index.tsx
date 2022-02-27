@@ -13,30 +13,40 @@ const TemplateModal = (props: {
   onCancel: Function;
   onDataChange: Function;
 }) => {
-  const [data, setData] = useState([]);
-  const [selected, setselected] = useState(-1);
+  const [data, setData] = useState<any>([]);
+  const [selected, setselected] = useState();
   //image size - 234 x 234
   const fetchData = async () => {
     await axios
-      .get("https://jsonplaceholder.typicode.com/photos")
+      // .get("https://jsonplaceholder.typicode.com/photos")
+      // .get("https://ibb.co/1s6jHzr")
+      .get("https://api.imgflip.com/get_memes")
+      // .get("https://i.imgur.com/TuRB5mj.jpg")
       .then((res) => {
-        setData(res.data.splice(0, 20));
+        // console.log(res.data.data.memes);
+        setData(res.data.data.memes);
+        // console.log(res);
+        // setData(res.data);
       });
   };
   useEffect(() => {
     fetchData();
   }, []);
 
-  const selectImage = (index: number) => {
-    console.log(index);
-    setselected(index);
+  const selectImage = (item: any) => {
+    // console.log(item);
+    setselected(item);
+  };
+
+  const handleSubmit = () => {
+    props.onDataChange(selected);
   };
   return (
     <Modal
       title="Template"
       visible={props.visible}
       onCancel={() => props.onCancel()}
-      onOk={() => props.onDataChange()}
+      onOk={handleSubmit}
       okText="Select"
       className="templatemodal"
     >
@@ -46,10 +56,13 @@ const TemplateModal = (props: {
         renderItem={(item: any, index: number) => {
           return (
             <List.Item
-              onClick={() => selectImage(index)}
+              onClick={() => selectImage(item)}
               className={
                 "templatemodal__list-item " +
-                (selected === index ? "templatemodal__list-item-click" : "")
+                //@ts-ignore
+                (selected && selected.id === item.id
+                  ? "templatemodal__list-item-click"
+                  : "")
               }
             >
               <Image src={item.url} preview={false} />

@@ -36,6 +36,8 @@ const MemeGenerator = () => {
     const scaleY = inputImage.naturalHeight / inputImage.height;
     canvas.width = crop.width;
     canvas.height = crop.height;
+    // canvas.setAttribute()
+    canvas.setAttribute("crossorigin", "anonymous");
     const ctx = canvas.getContext("2d");
     if (canvas.width === 0 || canvas.height === 0) {
       seterror("Select Image to crop");
@@ -63,7 +65,9 @@ const MemeGenerator = () => {
       crop.height
     );
 
+    console.log(canvas);
     const base64Image = canvas.toDataURL("image/jpeg");
+    console.log(base64Image);
     //@ts-ignore
     setfile(base64Image);
 
@@ -72,7 +76,9 @@ const MemeGenerator = () => {
   const hideModal = () => {
     setvisible(false);
   };
-  const onChangeHandler = () => {
+  const onChangeHandler = (item: any) => {
+    //@ts-ignore
+    setfile(item.url);
     setvisible(false);
   };
   return (
