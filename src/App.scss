@@ -20,6 +20,12 @@ code {
     margin-bottom: 16px;
     padding: 24px;
     min-height: 280;
+    .anticon svg {
+        color: white;
+    }
+    .anticon svg:hover {
+        color: $blue;
+    }
 }
 
 #components-layout-demo-custom-trigger .trigger {
@@ -30,6 +36,6 @@ code {
     transition: color 0.3s;
 }
 
-#components-layout-demo-custom-trigger .trigger:hover {
-    color: $blue;
+::-webkit-scrollbar {
+    display: none;
 }
