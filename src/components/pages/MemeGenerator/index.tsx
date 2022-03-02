@@ -10,6 +10,7 @@ import TemplateModal from "../../layout/TemplateModal";
 import Notification from "../../layout/Notification";
 import Drag from "./Drag";
 import { DraggableEvent } from "react-draggable";
+import TextArea from "antd/lib/input/TextArea";
 
 interface CropType {
   unit: string;
@@ -117,6 +118,7 @@ const MemeGenerator = () => {
       x: curr_x,
       y: curr_y,
     });
+    // console.log(curr_x + " " + curr_y);
   };
   const onDragStopSecond = (event: DraggableEvent) => {
     //@ts-ignore
@@ -129,7 +131,12 @@ const MemeGenerator = () => {
       x: curr_x,
       y: curr_y,
     });
+    // console.log(curr_x + " " + curr_y);
   };
+
+  // useEffect(() => {
+  //   addText();
+  // }, [inputFirst, inputSecond]);
 
   const addText = () => {
     if (inputImage === undefined) return;
@@ -145,10 +152,14 @@ const MemeGenerator = () => {
     console.log(inputFirst);
     console.log(inputSecond);
     if (inputFirst.x !== -1 && inputFirst.y !== -1) {
-      ctx.fillText(inputFirst.message, inputFirst.x, inputFirst.y);
+      ctx.fillText(inputFirst.message, inputFirst.x - 210, inputFirst.y - 80);
     }
     if (inputSecond.x !== -1 && inputSecond.y !== -1) {
-      ctx.fillText(inputSecond.message, inputSecond.x, inputSecond.y);
+      ctx.fillText(
+        inputSecond.message,
+        inputSecond.x - 230,
+        inputSecond.y - 60
+      );
     }
 
     let url = canavs.toDataURL("image/jpeg");
@@ -266,8 +277,8 @@ const MemeGenerator = () => {
           </Space>
         </div>
         <div className="memegenerator__container-box-right-inputholder">
-          <Input
-            type="text"
+          <TextArea
+            // type="text"
             onChange={(e) =>
               setinputFirst({
                 ...inputFirst,
@@ -276,8 +287,8 @@ const MemeGenerator = () => {
             }
             placeholder="Enter Top Text"
           />
-          <Input
-            type="text"
+          <TextArea
+            // type="text"
             onChange={(e) =>
               setinputSecond({
                 ...inputSecond,
