@@ -21,6 +21,9 @@
         max-height: 30rem;
     }
     &-box-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         &__upload {
             padding: 0.5rem;
         }
@@ -29,5 +32,16 @@
             justify-content: space-between;
             padding: 0.5rem 0;
         }
+        &-inputholder {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     }
+}
+
+.working_meme__container {
+    position: relative;
+    text-align: center;
 }
