@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import ReactCrop from "react-image-crop";
 import { Content } from "antd/lib/layout/layout";
-import { ScissorOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  ScissorOutlined,
+  UploadOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import UploadButton from "../../layout/UploadButton";
-import { Button, Checkbox, Image, Input, Space } from "antd";
+import { Button, Checkbox, Image, Input, Space, Modal, Popover } from "antd";
 import "./MemeGenerator.scss";
 import "react-image-crop/src/ReactCrop.scss";
 import TemplateModal from "../../layout/TemplateModal";
 import Notification from "../../layout/Notification";
 import Drag from "./Drag";
 import { DraggableEvent } from "react-draggable";
-import TextArea from "antd/lib/input/TextArea";
-
+import axios from "axios";
+import { SketchPicker } from "react-color";
+import FontSelector from "../../layout/FontSelector";
 interface CropType {
   unit: string;
   width: number;
@@ -19,6 +24,8 @@ interface CropType {
   x: number;
   y: number;
 }
+
+const { TextArea } = Input;
 const MemeGenerator = () => {
   const [src, setfile] = useState(null);
   const [inputImage, setinputImage] = useState<HTMLImageElement>();
@@ -26,6 +33,8 @@ const MemeGenerator = () => {
   const [wantcrop, setwantcrop] = useState(false);
   const [visible, setvisible] = useState(false);
   const [dragdrop, setdragdrop] = useState(false);
+  const [colorModal1, setcolorModal1] = useState(false);
+  const [colorModal2, setcolorModal2] = useState(false);
   const [inputFirst, setinputFirst] = useState({
     x: -1,
     y: -1,
@@ -164,7 +173,8 @@ const MemeGenerator = () => {
 
     let url = canavs.toDataURL("image/jpeg");
     //@ts-ignore
-    setfile(url);
+    setfile("");
+    setinputImage(undefined);
     return url;
   };
 
@@ -180,8 +190,29 @@ const MemeGenerator = () => {
     document.body.appendChild(docs);
     docs.click();
     document.body.removeChild(docs);
+
+    axios
+      .post("http://localhost:5000/meme", {
+        href: hr,
+        tags: ["sports"],
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const [color1, setcolor1] = useState("#FF0000");
+  const [color2, setcolor2] = useState("#FF0000");
+
+  const handleVisibleChange1 = (visible: boolean) => {
+    setcolorModal1(!colorModal1);
   };
 
+  const handleVisibleChange2 = (visible: boolean) => {
+    setcolorModal2(!colorModal2);
+  };
   return (
     <Content className="memegenerator__container">
       {visible ? (
@@ -277,26 +308,72 @@ const MemeGenerator = () => {
           </Space>
         </div>
         <div className="memegenerator__container-box-right-inputholder">
-          <TextArea
-            // type="text"
-            onChange={(e) =>
-              setinputFirst({
-                ...inputFirst,
-                message: e.target.value,
-              })
-            }
-            placeholder="Enter Top Text"
-          />
-          <TextArea
-            // type="text"
-            onChange={(e) =>
-              setinputSecond({
-                ...inputSecond,
-                message: e.target.value,
-              })
-            }
-            placeholder="Enter Bottom Text"
-          />
+          <div className="memegenerator__container-box-right-inputholder-box">
+            <TextArea
+              // type="text"
+              autoSize
+              onChange={(e) =>
+                setinputFirst({
+                  ...inputFirst,
+                  message: e.target.value,
+                })
+              }
+              placeholder="Enter Top Text"
+              className="memegenerator__container-box-right-inputholder-textarea"
+            />
+            <Popover
+              content={
+                <SketchPicker
+                  color={color1}
+                  onChangeComplete={(color) => {
+                    setcolor1(color.hex);
+                  }}
+                />
+              }
+              trigger="click"
+              visible={colorModal1}
+              onVisibleChange={handleVisibleChange1}
+              placement="bottomRight"
+            >
+              <Button>
+                <SettingOutlined className="icons" />
+              </Button>
+            </Popover>
+            <FontSelector />
+          </div>
+          <div className="memegenerator__container-box-right-inputholder-box">
+            <TextArea
+              autoSize
+              // type="text"
+              onChange={(e) =>
+                setinputSecond({
+                  ...inputSecond,
+                  message: e.target.value,
+                })
+              }
+              placeholder="Enter Bottom Text"
+            />
+
+            <Popover
+              content={
+                <SketchPicker
+                  color={color2}
+                  onChangeComplete={(color) => {
+                    setcolor2(color.hex);
+                  }}
+                />
+              }
+              trigger="click"
+              visible={colorModal2}
+              onVisibleChange={handleVisibleChange2}
+              placement="bottomRight"
+            >
+              <Button>
+                <SettingOutlined className="icons" />
+              </Button>
+            </Popover>
+            <FontSelector />
+          </div>
         </div>
       </div>
     </Content>
