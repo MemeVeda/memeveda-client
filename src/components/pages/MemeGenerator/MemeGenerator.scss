@@ -37,6 +37,10 @@
             gap: 0.5rem;
             flex-direction: column;
             justify-content: space-between;
+            &-box {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 }
@@ -44,4 +48,13 @@
 .working_meme__container {
     position: relative;
     text-align: center;
+}
+
+.ant-popover-inner-content {
+    padding: 0 !important;
+    color: unset !important;
+}
+
+.icons {
+    cursor: pointer;
 }
