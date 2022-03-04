@@ -7,12 +7,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import UploadButton from "../../layout/UploadButton";
-import { Button, Checkbox, Image, Input, Space, Modal, Popover } from "antd";
+import { Button, Checkbox, Image, Input, Space, Popover } from "antd";
 import "./MemeGenerator.scss";
 import "react-image-crop/src/ReactCrop.scss";
 import TemplateModal from "../../layout/TemplateModal";
 import Notification from "../../layout/Notification";
-import Drag from "./Drag";
+import Drag from "../../layout/Drag";
 import { DraggableEvent } from "react-draggable";
 import axios from "axios";
 import { SketchPicker } from "react-color";
@@ -191,7 +191,6 @@ const MemeGenerator = () => {
     document.body.appendChild(docs);
     docs.click();
     document.body.removeChild(docs);
-
     axios
       .post(`${BACKEND_URL}/meme`, {
         href: hr,
