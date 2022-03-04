@@ -4,9 +4,13 @@ import CustomCard from "../../layout/Card";
 import "./gallery.scss";
 import { MemeCardType } from "../../types/types";
 import axios from "axios";
+import Loader from "../../layout/Loader";
+import Notification from "../../layout/Notification";
+import { BACKEND_URL } from "../../utils/contant";
 
 const Gallery = () => {
   const [memeData, setmemeData] = useState<MemeCardType[]>([]);
+  const [loading, setloading] = useState(true);
 
   const updateCardDetail = (cardDetail: MemeCardType) => {
     const key = cardDetail.key;
@@ -17,7 +21,7 @@ const Gallery = () => {
     );
 
     axios
-      .post(`http://localhost:5000/meme/${cardDetail.key}`, {
+      .post(`${BACKEND_URL}/meme/${cardDetail.key}`, {
         href: cardDetail.href,
         like: cardDetail.like,
         dislike: cardDetail.dislike,
@@ -29,14 +33,14 @@ const Gallery = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        Notification({ message: error.message });
       });
   };
 
   useEffect(() => {
     const fetchMemeDetails = async () => {
       await axios
-        .get("http://localhost:5000/meme")
+        .get(`${BACKEND_URL}/meme`)
         .then((response) => {
           let cards: MemeCardType[] = response.data.map((card: any) => {
             return {
@@ -49,6 +53,7 @@ const Gallery = () => {
               tags: card.tags,
             };
           });
+          setloading(false);
           setmemeData(cards);
         })
         .catch((error) => {
@@ -59,17 +64,23 @@ const Gallery = () => {
   }, []);
 
   return (
-    <Content className="site-layout-background gallery__container">
-      {memeData.map((card: MemeCardType) => {
-        return (
-          <CustomCard
-            cardDetail={card}
-            updateDetail={updateCardDetail}
-            key={card.key}
-          />
-        );
-      })}
-    </Content>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Content className="site-layout-background gallery__container">
+          {memeData.map((card: MemeCardType) => {
+            return (
+              <CustomCard
+                cardDetail={card}
+                updateDetail={updateCardDetail}
+                key={card.key}
+              />
+            );
+          })}
+        </Content>
+      )}
+    </>
   );
 };
 

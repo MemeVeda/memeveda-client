@@ -4,9 +4,8 @@ import "./App.scss";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import SideBar from "./components/layout/SideBar";
 import CustomContent from "./components/layout/CustomContent";
-import { memeDemoData } from "./components/db/memeDemoData";
 import axios from "axios";
-import { MEME_STORAGE } from "./components/utils/contant";
+import { BACKEND_URL, MEME_STORAGE } from "./components/utils/contant";
 const { Header, Content } = Layout;
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
   useEffect(() => {
     const fetchDetail = async () => {
       await axios
-        .get("http://localhost:5000/user")
+        .get(`${BACKEND_URL}/user`)
         .then((response) => {
           let users = response.data.map((user: any) => {
             return {
@@ -43,8 +42,6 @@ function App() {
     fetchDetail();
   }, []);
 
-  //sessionstorage
-  // memeDemoData();
   return (
     <Layout className="App">
       <SideBar

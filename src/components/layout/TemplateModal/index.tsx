@@ -23,7 +23,7 @@ const TemplateModal = (props: {
       // .get("https://api.imgflip.com/get_memes")
       .get("https://api.imgflip.com/get_memes")
       // .get("https://i.imgur.com/TuRB5mj.jpg")
-      // .get("http://localhost:5000/randomapi", {
+      // .get("https://memeveda.herokuapp.com/randomapi", {
       //   headers: {
       //     "Access-Control-Allow-Origin": "*",
       //   },
