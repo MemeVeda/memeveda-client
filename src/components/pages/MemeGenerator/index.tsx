@@ -7,12 +7,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import UploadButton from "../../layout/UploadButton";
-import { Button, Checkbox, Image, Input, Space, Modal, Popover } from "antd";
+import { Button, Checkbox, Image, Input, Space, Popover } from "antd";
 import "./MemeGenerator.scss";
 import "react-image-crop/src/ReactCrop.scss";
 import TemplateModal from "../../layout/TemplateModal";
 import Notification from "../../layout/Notification";
-import Drag from "./Drag";
+import Drag from "../../layout/Drag";
 import { DraggableEvent } from "react-draggable";
 import axios from "axios";
 import { SketchPicker } from "react-color";
@@ -193,11 +193,8 @@ const MemeGenerator = () => {
     document.body.appendChild(docs);
     docs.click();
     document.body.removeChild(docs);
-    setinputFirst({x:-1,y:-1,message:""})
-    setinputSecond({x:-1,y:-1,message:""})
-    
-
-
+    setinputFirst({ x: -1, y: -1, message: "" });
+    setinputSecond({ x: -1, y: -1, message: "" });
 
     axios
       .post(`${BACKEND_URL}/meme`, {
@@ -211,8 +208,8 @@ const MemeGenerator = () => {
         console.log(e);
       });
   };
-  const [text1, settext1] = useState({color : "#FF0000",size : "12" });
-  const [text2, settext2] =useState({color : "#FF0000",size : "12" });
+  const [text1, settext1] = useState({ color: "#FF0000", size: "12" });
+  const [text2, settext2] = useState({ color: "#FF0000", size: "12" });
 
   const handleVisibleChange1 = (visible: boolean) => {
     setcolorModal1(!colorModal1);
@@ -222,13 +219,13 @@ const MemeGenerator = () => {
     setcolorModal2(!colorModal2);
   };
 
-  const handleFontChange1=(val:string)=>{
-      settext1({...text1,size:val})
+  const handleFontChange1 = (val: string) => {
+    settext1({ ...text1, size: val });
   };
 
-  const handleFontChange2=(val:string)=>{
-    settext2({...text2,size:val})
-};
+  const handleFontChange2 = (val: string) => {
+    settext2({ ...text2, size: val });
+  };
 
   return (
     <Content className="memegenerator__container">
@@ -254,7 +251,7 @@ const MemeGenerator = () => {
               text={inputSecond.message}
               customClassName="draggable__component_second"
               onDragStop={onDragStopSecond}
-             textProps={text2}
+              textProps={text2}
             />
           </>
         ) : (
@@ -345,7 +342,7 @@ const MemeGenerator = () => {
                 <SketchPicker
                   color={text1.color}
                   onChangeComplete={(color) => {
-                    settext1({...text1,color:color.hex});
+                    settext1({ ...text1, color: color.hex });
                   }}
                 />
               }
@@ -358,7 +355,7 @@ const MemeGenerator = () => {
                 <SettingOutlined className="icons" />
               </Button>
             </Popover>
-            <FontSelector size="12" onChange={handleFontChange1}/>
+            <FontSelector size="12" onChange={handleFontChange1} />
           </div>
           <div className="memegenerator__container-box-right-inputholder-box">
             <TextArea
@@ -376,10 +373,10 @@ const MemeGenerator = () => {
             <Popover
               content={
                 <SketchPicker
-                color={text2.color}
-                onChangeComplete={(color) => {
-                  settext2({...text2,color:color.hex});
-                }}
+                  color={text2.color}
+                  onChangeComplete={(color) => {
+                    settext2({ ...text2, color: color.hex });
+                  }}
                 />
               }
               trigger="click"
@@ -391,7 +388,7 @@ const MemeGenerator = () => {
                 <SettingOutlined className="icons" />
               </Button>
             </Popover>
-            <FontSelector size = "12" onChange={handleFontChange2}/>
+            <FontSelector size="12" onChange={handleFontChange2} />
           </div>
         </div>
       </div>

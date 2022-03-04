@@ -15,7 +15,7 @@ export interface UserType {
   user_desc: string;
 }
 
-interface CropType {
+export interface CropType {
   unit: string;
   width: number;
   height: number;
