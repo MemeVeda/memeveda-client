@@ -17,6 +17,7 @@ import { DraggableEvent } from "react-draggable";
 import axios from "axios";
 import { SketchPicker } from "react-color";
 import FontSelector from "../../layout/FontSelector";
+import { BACKEND_URL } from "../../utils/contant";
 interface CropType {
   unit: string;
   width: number;
@@ -199,7 +200,7 @@ const MemeGenerator = () => {
 
 
     axios
-      .post("http://localhost:5000/meme", {
+      .post(`${BACKEND_URL}/meme`, {
         href: hr,
         tags: ["sports"],
       })
