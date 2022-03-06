@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Avatar, Space, Card } from "antd";
+import { Avatar, Space, Card, Image } from "antd";
 import {
   DislikeOutlined,
   DownloadOutlined,
@@ -69,7 +69,7 @@ const CustomCard = (props: {
       style={{ width: 300, marginBottom: 50 }}
       className="card__container"
       cover={
-        <img
+        <Image
           className="card__container-img"
           alt="example"
           src={props.cardDetail.href}
