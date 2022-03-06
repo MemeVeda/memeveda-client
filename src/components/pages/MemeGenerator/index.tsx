@@ -48,7 +48,7 @@ const MemeGenerator = () => {
     y: -1,
     message: "",
   });
-  const users = useSelector((state: RootState) => state.user);
+  const singleuser = useSelector((state: RootState) => state.user);
 
   const handleChange = (e: any) => {
     let img = document.createElement("img");
@@ -187,7 +187,12 @@ const MemeGenerator = () => {
   };
 
   const generateMeme = () => {
-    if (users.user_id === "") {
+    console.log(singleuser);
+    if (
+      singleuser === undefined ||
+      singleuser.user_id === undefined ||
+      singleuser.user_id === ""
+    ) {
       Notification({ message: "login required" });
       return;
     }
@@ -291,7 +296,7 @@ const MemeGenerator = () => {
           {/* //upload from computer */}
           <UploadButton
             handleFileChange={handleChange}
-            name="Upload file"
+            name="Upload template"
             id="browser_input"
           />
 
@@ -304,7 +309,7 @@ const MemeGenerator = () => {
             onClick={() => setvisible(true)}
           >
             {" "}
-            Upload new template{" "}
+            Create from templates{" "}
           </Button>
         </div>
         <div>
