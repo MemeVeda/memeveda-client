@@ -1,0 +1,27 @@
+.loginmodal__container {
+    .ant-modal-body {
+        display: flex;
+        flex-direction: column;
+        padding: 0px 24px 0 24px;
+    }
+    .ant-modal-footer {
+        padding: 7px;
+        text-align: center;
+    }
+    .ant-col-8 {
+        flex: 20%;
+        max-width: 100%;
+    }
+    .ant-col-16 {
+        flex: 80%;
+        max-width: 100%;
+    }
+}
+
+.submitHandler {
+    .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: center;
+        column-gap: 1rem;
+    }
+}
