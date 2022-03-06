@@ -18,6 +18,8 @@ import axios from "axios";
 import { SketchPicker } from "react-color";
 import FontSelector from "../../layout/FontSelector";
 import { BACKEND_URL } from "../../utils/contant";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 interface CropType {
   unit: string;
   width: number;
@@ -46,6 +48,7 @@ const MemeGenerator = () => {
     y: -1,
     message: "",
   });
+  const users = useSelector((state: RootState) => state.user);
 
   const handleChange = (e: any) => {
     let img = document.createElement("img");
@@ -157,12 +160,14 @@ const MemeGenerator = () => {
     canavs.width = inputImage.width;
     canavs.height = inputImage.height;
     ctx.drawImage(inputImage, 0, 0);
+    ctx.textBaseline = "top";
     ctx.fillStyle = text1.color;
     ctx.font = `${text1.size}px Arial`;
     console.log(inputFirst);
     console.log(inputSecond);
     if (inputFirst.x !== -1 && inputFirst.y !== -1) {
-      ctx.fillText(inputFirst.message, inputFirst.x - 210, inputFirst.y - 80);
+      // ctx.fillText(inputFirst.message, inputFirst.x - 210, inputFirst.y - 80);
+      ctx.fillText(inputFirst.message, inputFirst.x, inputFirst.y);
     }
     ctx.fillStyle = text2.color;
     ctx.font = `${text2.size}px Arial`;
@@ -182,6 +187,10 @@ const MemeGenerator = () => {
   };
 
   const generateMeme = () => {
+    if (users.user_id === "") {
+      Notification({ message: "login required" });
+      return;
+    }
     if (src === null) return;
     let docs = document.createElement("a");
     if (docs === null) return;

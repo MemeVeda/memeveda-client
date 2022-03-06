@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "antd";
+import { Button, Layout, Avatar, Image } from "antd";
 import "./App.scss";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import SideBar from "./components/layout/SideBar";
 import CustomContent from "./components/layout/CustomContent";
 import axios from "axios";
 import { BACKEND_URL, MEME_STORAGE } from "./components/utils/contant";
-const { Header, Content } = Layout;
+import Auth from "./components/pages/Auth";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "./components/redux/store";
 
 function App() {
+  const { Header } = Layout;
   const [collapsed, setcollapsed] = useState(false);
   const [selectedKey, setselectedKey] = useState("1");
+  const [auth, setauth] = useState(false);
+  const [avatar_url, setavatar_url] = useState(
+    "https://joeschmoe.io/api/v1/random"
+  );
+  const singleuser = useSelector((state: RootState) => state.user);
+
+  const [loginModal, setloginModal] = useState(false);
   const toggle = () => {
     setcollapsed(!collapsed);
   };
@@ -42,21 +56,48 @@ function App() {
     fetchDetail();
   }, []);
 
+  const hideModal = () => {
+    setloginModal(false);
+  };
+
+  useEffect(() => {
+    console.log(singleuser);
+    if (singleuser && singleuser.user_id && singleuser.user_id !== "") {
+      setauth(true);
+      sessionStorage.setItem(
+        `${MEME_STORAGE}singleuser`,
+        JSON.stringify(singleuser)
+      );
+    }
+  }, [singleuser]);
+
   return (
     <Layout className="App">
+      {loginModal ? <Auth visible={loginModal} hideModal={hideModal} /> : <></>}
       <SideBar
         collapsed={collapsed}
         selectedkey={selectedKey}
         MenuChange={MenuChange}
       />
       <Layout className="site-layout">
-        <Header className="site-layout-background">
+        <Header className="site-layout-background  header__container">
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
               className: "trigger",
               onClick: toggle,
             }
+          )}
+          {auth ? (
+            <Avatar size={45} src={<Image src={avatar_url} />} />
+          ) : (
+            <Button
+              onClick={() => setloginModal(true)}
+              className="header__container_btn"
+            >
+              {" "}
+              Login/SignUp{" "}
+            </Button>
           )}
         </Header>
         <CustomContent tabpane={selectedKey} />

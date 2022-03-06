@@ -20,11 +20,22 @@ code {
     margin-bottom: 16px;
     padding: 24px;
     min-height: 280;
-    // .anticon svg {
-    //     color: black;
-    // }
+    .anticon svg {
+        color: gray;
+    }
     .anticon svg:hover {
         color: $blue;
+    }
+}
+
+.header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &_btn {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
     }
 }
 
