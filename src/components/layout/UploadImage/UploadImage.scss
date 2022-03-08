@@ -1,0 +1,25 @@
+@import "../../../index.scss";
+.uploader {
+    .ant-upload.ant-upload-select-picture-card {
+        width: 16rem;
+        height: 16rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: $gray 0% 0% no-repeat padding-box;
+        margin: unset;
+    }
+    .ant-upload.ant-upload-select-picture-card>.ant-upload {
+        div>div {
+            display: none;
+            margin: unset;
+        }
+        div>img {
+            vertical-align: unset;
+        }
+    }
+    .ant-upload.ant-upload-select-picture-card>.ant-upload>img {
+        width: 16rem;
+        height: 16rem;
+        border-radius: 0.5rem;
+    }
+}

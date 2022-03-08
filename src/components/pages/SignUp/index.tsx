@@ -1,19 +1,37 @@
-import { Form, Input, Button, Checkbox, Space, Upload } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Checkbox, Space, Upload, Alert } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import "./SignUp.scss";
 import { UploadOutlined } from "@ant-design/icons";
+import UploadImage from "../../layout/UploadImage";
 
 const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
-  const onFinish = (values: any) => {
-    props.onDataChange(values);
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const [description, setdescription] = useState("");
+  const [remember, setremember] = useState(true);
+  const [uploadImage, setuploadImage] = useState("");
+  const [errorMessage, seterrorMessage] = useState("");
+  // const onFinish = (values: any) => {
+  //   props.onDataChange(values);
+  // };
+  const uploadFile = (image: string) => {
+    setuploadImage(image);
   };
 
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
+  const eventUploadError = (errorMessage: any) => {
+    console.log(errorMessage);
+    seterrorMessage(errorMessage);
+  };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    props.onDataChange({
+      username: username,
+      password: password,
+      description: description,
+      remember: remember,
+      imageUrl: uploadImage,
+    });
   };
   return (
     <Form
@@ -27,10 +45,9 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
-      id="signupForm"
       autoComplete="off"
     >
+      {errorMessage !== "" ? <Alert message={errorMessage} /> : <></>}
       <Form.Item
         label="Username"
         name="username"
@@ -41,7 +58,7 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <Input />
+        <Input type="text" onChange={(e) => setusername(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -54,7 +71,7 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password onChange={(e) => setpassword(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -66,18 +83,15 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <TextArea />
+        <TextArea onChange={(e) => setdescription(e.target.value)} />
       </Form.Item>
 
-      <Form.Item
-        name="upload"
-        label="Upload"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-      >
-        <Upload maxCount={1} name="avatar" action="#" listType="picture">
-          <Button icon={<UploadOutlined />}>Click to upload</Button>
-        </Upload>
+      <Form.Item name="upload" label="Upload">
+        <UploadImage
+          size={1}
+          returnFileContent={uploadFile}
+          setErrorMessage={eventUploadError}
+        />
       </Form.Item>
       <Form.Item
         name="remember"
@@ -87,18 +101,18 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           span: 16,
         }}
       >
-        <Checkbox>Remember me</Checkbox>
+        <Checkbox onChange={(e) => setremember(!remember)}>
+          Remember me
+        </Checkbox>
       </Form.Item>
 
       <Form.Item className="submitHandler">
-        {/* <Space> */}
         <Button type="primary" onClick={() => props.onCancel()}>
           Cancel
         </Button>
-        <Button form="signupForm" type="primary" htmlType="submit">
+        <Button onClick={handleSubmit} type="primary" htmlType="submit">
           Submit
         </Button>
-        {/* </Space> */}
       </Form.Item>
     </Form>
   );
