@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Layout, Menu, Space } from "antd";
-import MemeVeda from '../../assets/MemeVeda.png'
+import MemeVeda from "../../assets/MemeVeda.png";
 import {
   VideoCameraOutlined,
   UploadOutlined,
@@ -22,8 +22,26 @@ const SideBar = (props: {
       className="sider"
     >
       <Space className="sider__logo">
-       
-        {props.collapsed ? <span><Image style={{marginTop:0}} src={MemeVeda} width={80} height={66}/> </span> : <span> <Image style={{marginTop:12}} src={MemeVeda} width={200} height={180} /></span>}
+        {props.collapsed ? (
+          <span>
+            <Image
+              style={{ marginTop: 0 }}
+              src={MemeVeda}
+              width={80}
+              height={66}
+            />{" "}
+          </span>
+        ) : (
+          <span>
+            {" "}
+            <Image
+              style={{ marginTop: 12 }}
+              src={MemeVeda}
+              width={200}
+              height={180}
+            />
+          </span>
+        )}
       </Space>
       <Menu
         theme="dark"
