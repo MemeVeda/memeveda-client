@@ -64,6 +64,7 @@ function App() {
     console.log(singleuser);
     if (singleuser && singleuser.user_id && singleuser.user_id !== "") {
       setauth(true);
+      if (singleuser.img_url) setavatar_url(singleuser.img_url);
       sessionStorage.setItem(
         `${MEME_STORAGE}singleuser`,
         JSON.stringify(singleuser)
