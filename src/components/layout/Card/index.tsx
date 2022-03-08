@@ -39,7 +39,7 @@ const CustomCard = (props: {
   };
 
   const downloadIncrement = () => {
-    saveAs(props.cardDetail.href, "image");
+    saveAs(props.cardDetail.href, "meme");
     // "https://i.imgur.com/TuRB5mj.jpg"
     let newData: MemeCardType = {
       ...props.cardDetail,
