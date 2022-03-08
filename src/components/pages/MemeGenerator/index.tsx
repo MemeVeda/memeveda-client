@@ -30,8 +30,8 @@ const MemeGenerator = () => {
       let base64 = reader.result;
       await axios
         .post(`${BACKEND_URL}/meme`, {
+          owner_id: singleuser.user_id,
           href: base64,
-          tags: ["success"],
         })
         .then((res) => {
           console.log(res);
