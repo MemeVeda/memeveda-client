@@ -94,6 +94,7 @@ function App() {
             <Button
               onClick={() => setloginModal(true)}
               className="header__container_btn"
+              type="primary"
             >
               {" "}
               Login/SignUp{" "}
