@@ -27,7 +27,6 @@ const Gallery = () => {
         dislike: cardDetail.dislike,
         download: cardDetail.download,
         owner_id: cardDetail.owner_id,
-        tags: cardDetail.tags,
       })
       .then((response) => {
         console.log(response.data);
@@ -42,6 +41,7 @@ const Gallery = () => {
       await axios
         .get(`${BACKEND_URL}/meme`)
         .then((response) => {
+          console.log(response);
           let cards: MemeCardType[] = response.data.map((card: any) => {
             return {
               key: card._id,

@@ -9,7 +9,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
     {
       key: "02",
@@ -18,7 +17,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
     {
       key: "03",
@@ -27,7 +25,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
     {
       key: "04",
@@ -36,7 +33,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
     {
       key: "05",
@@ -45,7 +41,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
     {
       key: "06",
@@ -54,7 +49,6 @@ export const memeDemoData = () => {
       like: 0,
       dislike: 0,
       download: 0,
-      tags: [],
     },
   ];
 

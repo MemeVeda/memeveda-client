@@ -16,7 +16,7 @@ const CustomCard = (props: {
   updateDetail: Function;
 }) => {
   const { Meta } = Card;
-
+  console.log(props.cardDetail);
   const [cardOwner, setcardOwner] = useState<UserType>({
     user_id: "",
     user_desc: "",
