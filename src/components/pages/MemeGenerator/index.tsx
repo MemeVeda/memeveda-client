@@ -10,9 +10,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Notification from "../../layout/Notification";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { Checkbox, Modal } from "antd";
+import { useState } from "react";
 
 const MemeGenerator = () => {
   const singleuser = useSelector((state: RootState) => state.user);
+  const [confirmModal, setconfirmModal] = useState(false);
+
+  const [outputBlob, setoutputBlob] = useState<Blob>();
+  const [imageName, setimageName] = useState("");
 
   //@ts-ignore
   window.saveAs = (blob: Blob, imageName: string) => {
@@ -28,65 +34,91 @@ const MemeGenerator = () => {
       });
       return;
     }
+    setoutputBlob(blob);
+    setimageName(imageName);
+    setconfirmModal(true);
+  };
 
+  const handleOk = () => {
+    if (outputBlob === undefined) return;
     let reader = new FileReader();
-    reader.readAsDataURL(blob);
+    reader.readAsDataURL(outputBlob);
     reader.onload = async () => {
       let base64 = reader.result;
-      await axios
-        .post(`${BACKEND_URL}/meme`, {
-          owner_id: singleuser.user_id,
-          href: base64,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+
+      if (check) {
+        await axios
+          .post(`${BACKEND_URL}/meme`, {
+            owner_id: singleuser.user_id,
+            href: base64,
+          })
+          .then((res) => {
+            Notification({
+              message: "Upload Successfully",
+              icon: <CheckCircleOutlined />,
+              customClass: "Notification Notification__success",
+            });
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     };
 
-    saveAs(blob, imageName);
-    Notification({
-      message: "Upload Successfully",
-      icon: <CheckCircleOutlined />,
-      customClass: "Notification Notification__success",
-    });
+    saveAs(outputBlob, imageName);
+    setconfirmModal(false);
   };
+  const handleCancel = () => {
+    setconfirmModal(false);
+  };
+  const [check, setcheck] = useState(true);
   return (
-    <ImageEditor
-      includeUI={{
-        loadImage: {
-          path: stempmv,
-          name: "SampleImage",
-        },
-        //theme: myTheme,
-        menu: [
-          "crop",
-          "flip",
-          "rotate",
-          "draw",
-          "shape",
-          "icon",
-          "text",
-          "mask",
-          "filter",
-        ],
-        initMenu: "filter",
-        uiSize: {
-          width: "100%",
-          height: "91vh",
-        },
-        menuBarPosition: "bottom",
-      }}
-      cssMaxHeight={750}
-      cssMaxWidth={1000}
-      selectionStyle={{
-        cornerSize: 20,
-        rotatingPointOffset: 70,
-      }}
-      usageStatistics={false}
-    />
+    <>
+      <Modal
+        title="Basic Modal"
+        visible={confirmModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Checkbox checked={check} onChange={(e) => setcheck(!check)}>
+          Contribute to Community{" "}
+        </Checkbox>
+      </Modal>
+      <ImageEditor
+        includeUI={{
+          loadImage: {
+            path: stempmv,
+            name: "SampleImage",
+          },
+          //theme: myTheme,
+          menu: [
+            "crop",
+            "flip",
+            "rotate",
+            "draw",
+            "shape",
+            "icon",
+            "text",
+            "mask",
+            "filter",
+          ],
+          initMenu: "filter",
+          uiSize: {
+            width: "100%",
+            height: "91vh",
+          },
+          menuBarPosition: "bottom",
+        }}
+        cssMaxHeight={750}
+        cssMaxWidth={1000}
+        selectionStyle={{
+          cornerSize: 20,
+          rotatingPointOffset: 70,
+        }}
+        usageStatistics={false}
+      />
+    </>
   );
 };
 
