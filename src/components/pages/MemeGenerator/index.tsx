@@ -54,7 +54,7 @@ const MemeGenerator = () => {
           })
           .then((res) => {
             Notification({
-              message: "Upload Successfully",
+              message: "Uploaded Successfully",
               icon: <CheckCircleOutlined />,
               customClass: "Notification Notification__success",
             });

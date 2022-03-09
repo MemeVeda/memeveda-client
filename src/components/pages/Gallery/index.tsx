@@ -60,7 +60,7 @@ const Gallery = () => {
           });
           setloading(false);
           Notification({
-            message: "fetch successfully",
+            message: "fetched successfully",
             icon: <CheckCircleOutlined />,
             customClass: "Notification Notification__success",
           });
