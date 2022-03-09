@@ -7,6 +7,7 @@ import axios from "axios";
 import Loader from "../../layout/Loader";
 import Notification from "../../layout/Notification";
 import { BACKEND_URL } from "../../utils/contant";
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const Gallery = () => {
   const [memeData, setmemeData] = useState<MemeCardType[]>([]);
@@ -32,7 +33,11 @@ const Gallery = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        Notification({ message: error.message });
+        Notification({
+          message: error.message,
+          icon: <CloseCircleOutlined />,
+          customClass: "Notification Notification__error",
+        });
       });
   };
 

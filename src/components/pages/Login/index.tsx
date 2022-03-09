@@ -1,11 +1,31 @@
-import { Form, Input, Button, Checkbox, Modal, Space, Tabs } from "antd";
+import { Form, Input, Button, Checkbox, Alert } from "antd";
 import "./Login.scss";
+import { useState } from "react";
 
 const Login = (props: { onDataChange: Function; onCancel: Function }) => {
-  const onFinish = (values: any) => {
-    // console.log("Success:", values);
-    props.onDataChange(values);
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const [remember, setremember] = useState(true);
+  const [errorMessage, seterrorMessage] = useState("");
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (username === "") {
+      seterrorMessage("username is required field");
+      return;
+    }
+    if (password === "") {
+      seterrorMessage("password is required field");
+      return;
+    }
+    seterrorMessage("");
+    props.onDataChange({
+      username: username,
+      password: password,
+      remember: remember,
+    });
   };
+
   return (
     <Form
       name="basic"
@@ -18,10 +38,18 @@ const Login = (props: { onDataChange: Function; onCancel: Function }) => {
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
       autoComplete="off"
-      id="loginForm"
     >
+      {errorMessage !== "" ? (
+        <Alert
+          closable={true}
+          type="error"
+          className="alert_message"
+          message={errorMessage}
+        />
+      ) : (
+        <></>
+      )}
       <Form.Item
         label="Username"
         name="username"
@@ -32,7 +60,7 @@ const Login = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <Input />
+        <Input type="text" onChange={(e) => setusername(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -45,7 +73,7 @@ const Login = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password onChange={(e) => setpassword(e.target.value)} />
       </Form.Item>
 
       <Form.Item
@@ -56,18 +84,18 @@ const Login = (props: { onDataChange: Function; onCancel: Function }) => {
           span: 16,
         }}
       >
-        <Checkbox>Remember me</Checkbox>
+        <Checkbox onChange={(e) => setremember(!remember)}>
+          Remember me
+        </Checkbox>
       </Form.Item>
 
       <Form.Item className="submitHandler">
-        {/* <Space key="#"> */}
         <Button type="primary" onClick={() => props.onCancel()}>
           Cancel
         </Button>
-        <Button form="loginForm" type="primary" htmlType="submit">
+        <Button onClick={handleSubmit} type="primary" htmlType="submit">
           Submit
         </Button>
-        {/* </Space> */}
       </Form.Item>
     </Form>
   );

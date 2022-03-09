@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Space, Upload, Alert } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import "./SignUp.scss";
-import { UploadOutlined } from "@ant-design/icons";
 import UploadImage from "../../layout/UploadImage";
 
 const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
@@ -25,6 +24,15 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (username === "") {
+      seterrorMessage("username is required field");
+      return;
+    }
+    if (password === "") {
+      seterrorMessage("password is required field");
+      return;
+    }
+    seterrorMessage("");
     props.onDataChange({
       username: username,
       password: password,
@@ -47,7 +55,16 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       }}
       autoComplete="off"
     >
-      {errorMessage !== "" ? <Alert message={errorMessage} /> : <></>}
+      {errorMessage !== "" ? (
+        <Alert
+          closable={true}
+          type="error"
+          className="alert_message"
+          message={errorMessage}
+        />
+      ) : (
+        <></>
+      )}
       <Form.Item
         label="Username"
         name="username"
@@ -83,7 +100,10 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           },
         ]}
       >
-        <TextArea onChange={(e) => setdescription(e.target.value)} />
+        <TextArea
+          maxLength={50}
+          onChange={(e) => setdescription(e.target.value)}
+        />
       </Form.Item>
 
       <Form.Item name="upload" label="Upload">

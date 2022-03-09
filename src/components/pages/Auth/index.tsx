@@ -7,6 +7,7 @@ import { BACKEND_URL } from "../../utils/contant";
 import Notification from "../../layout/Notification";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/UserReducer";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 const Auth = (props: { visible: boolean; hideModal: Function }) => {
   const { TabPane } = Tabs;
@@ -26,7 +27,8 @@ const Auth = (props: { visible: boolean; hideModal: Function }) => {
       .get(`${BACKEND_URL}/user/${username}`)
       .then((docs) => {
         const user_data = docs.data;
-        if (user_data.password === password) {
+
+        if (user_data !== null && user_data.password === password) {
           dispatch(
             addUser({
               user_id: user_data._id,
@@ -38,7 +40,11 @@ const Auth = (props: { visible: boolean; hideModal: Function }) => {
 
           props.hideModal();
         } else {
-          Notification({ message: "Auth fail" });
+          Notification({
+            message: "Incorrect username or password",
+            icon: <CloseCircleOutlined />,
+            customClass: "Notification Notification__error",
+          });
         }
       })
       .catch((err) => {
