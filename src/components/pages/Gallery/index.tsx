@@ -59,6 +59,11 @@ const Gallery = () => {
             };
           });
           setloading(false);
+          Notification({
+            message: "fetch successfully",
+            icon: <CheckCircleOutlined />,
+            customClass: "Notification Notification__success",
+          });
           setmemeData(cards);
         })
         .catch((error) => {
