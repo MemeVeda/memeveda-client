@@ -1,11 +1,7 @@
 import React from "react";
 import { Image, Layout, Menu, Space } from "antd";
 import MemeVeda from "../../assets/MemeVeda.png";
-import {
-  VideoCameraOutlined,
-  UploadOutlined,
-  BulbOutlined,
-} from "@ant-design/icons";
+import { PictureOutlined, BulbOutlined, TeamOutlined } from "@ant-design/icons";
 import "./SideBar.scss";
 
 const SideBar = (props: {
@@ -53,10 +49,10 @@ const SideBar = (props: {
         <Menu.Item key="1" icon={<BulbOutlined />}>
           Create Meme
         </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+        <Menu.Item key="2" icon={<PictureOutlined />}>
           Gallery
         </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
+        <Menu.Item key="3" icon={<TeamOutlined />}>
           About Us
         </Menu.Item>
       </Menu>
