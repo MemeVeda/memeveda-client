@@ -50,3 +50,16 @@ code {
 ::-webkit-scrollbar {
     display: none;
 }
+
+.Notification {
+    margin-bottom: 0 !important;
+    .ant-notification-notice-with-icon .ant-notification-notice-message {
+        margin-left: 35px !important;
+    }
+    &__success {
+        background-color: $success-alert !important;
+    }
+    &__error {
+        background-color: $danger-alert !important;
+    }
+}

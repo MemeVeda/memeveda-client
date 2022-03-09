@@ -9,6 +9,7 @@ import { BACKEND_URL } from "../../utils/contant";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Notification from "../../layout/Notification";
+import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const MemeGenerator = () => {
   const singleuser = useSelector((state: RootState) => state.user);
@@ -20,7 +21,11 @@ const MemeGenerator = () => {
       singleuser.user_id === undefined ||
       singleuser.user_id === ""
     ) {
-      Notification({ message: "Authentication required" });
+      Notification({
+        message: "Authentication required",
+        icon: <CloseCircleOutlined />,
+        customClass: "Notification Notification__error",
+      });
       return;
     }
 
@@ -42,6 +47,11 @@ const MemeGenerator = () => {
     };
 
     saveAs(blob, imageName);
+    Notification({
+      message: "Upload Successfully",
+      icon: <CheckCircleOutlined />,
+      customClass: "Notification Notification__success",
+    });
   };
   return (
     <ImageEditor

@@ -1,14 +1,15 @@
-import { Button, notification } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
+import { notification } from "antd";
 
-const Notification = (props: { message: string }) => {
+const Notification = (props: {
+  icon: any;
+  message: string;
+  customClass: string;
+}) => {
   notification.open({
-    message: "Error",
-    description: props.message,
-    className: "custom-class",
-    style: {
-      width: 600,
-    },
+    icon: props.icon,
+    message: props.message,
+    className: props.customClass,
+    duration: 3,
   });
 };
 
