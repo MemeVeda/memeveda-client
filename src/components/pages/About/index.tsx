@@ -37,8 +37,8 @@ const About = () => {
               hoverable
               cover={
                 <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  alt="Shubham Thorat"
+                  src="https://res.cloudinary.com/dsrpn6k2o/image/upload/v1647105420/Photo/Shubham_Thorat_eiswdx.jpg"
                 />
               }
               title="Shubham Thorat"
@@ -68,8 +68,8 @@ const About = () => {
               hoverable
               cover={
                 <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  alt="Anubhab Ray"
+                  src="https://res.cloudinary.com/dsrpn6k2o/image/upload/v1647105051/Photo/Anubhab_Ray_gyyk6o.jpg"
                 />
               }
               title="Anubhab Ray"
@@ -99,8 +99,8 @@ const About = () => {
               hoverable
               cover={
                 <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  alt="Kartikeya Singh"
+                  src="https://res.cloudinary.com/dsrpn6k2o/image/upload/v1647105420/Photo/Kartikeya_Singh_huug61.jpg"
                 />
               }
               title="Kartikeya Singh"
