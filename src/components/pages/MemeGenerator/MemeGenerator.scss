@@ -2,3 +2,16 @@
 .tui-image-editor-header-logo {
     display: none !important;
 }
+
+.download__confirm_modal {
+    // .ant-modal-content {
+    //     width: 20rem;
+    // }
+    .ant-modal-header {
+        display: none;
+    }
+    .ant-checkbox+span {
+        font-family: "Ubuntu", sans-serif;
+        font-size: 1rem;
+    }
+}

@@ -11,10 +11,10 @@ import { RootState } from "../../redux/store";
 import Notification from "../../layout/Notification";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { Checkbox, Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MemeGenerator = () => {
-  const singleuser = useSelector((state: RootState) => state.user);
+  const singleuser = useSelector((state: RootState) => state.user.currentuser);
   const [confirmModal, setconfirmModal] = useState(false);
 
   const [outputBlob, setoutputBlob] = useState<Blob>();
@@ -22,6 +22,7 @@ const MemeGenerator = () => {
 
   //@ts-ignore
   window.saveAs = (blob: Blob, imageName: string) => {
+    console.log(blob);
     if (
       singleuser === undefined ||
       singleuser.user_id === undefined ||
@@ -73,6 +74,7 @@ const MemeGenerator = () => {
     setconfirmModal(false);
   };
   const [check, setcheck] = useState(true);
+
   return (
     <>
       <Modal
@@ -80,6 +82,8 @@ const MemeGenerator = () => {
         visible={confirmModal}
         onOk={handleOk}
         onCancel={handleCancel}
+        className="download__confirm_modal"
+        okText="Download"
       >
         <Checkbox checked={check} onChange={(e) => setcheck(!check)}>
           Contribute to Community{" "}
