@@ -13,6 +13,9 @@ import { BACKEND_URL, MEME_STORAGE } from "./components/utils/contant";
 import Auth from "./components/pages/Auth";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./components/redux/store";
+import { MemeCardType } from "./components/types/types";
+import { addCardList } from "./components/redux/MemeReducer";
+import { addUserList } from "./components/redux/UserReducer";
 
 function App() {
   const { Header } = Layout;
@@ -22,8 +25,9 @@ function App() {
   const [avatar_url, setavatar_url] = useState(
     "https://joeschmoe.io/api/v1/random"
   );
-  const singleuser = useSelector((state: RootState) => state.user);
+  const singleuser = useSelector((state: RootState) => state.user.currentuser);
 
+  const dispatch = useDispatch();
   const [loginModal, setloginModal] = useState(false);
   const toggle = () => {
     setcollapsed(!collapsed);
@@ -33,26 +37,52 @@ function App() {
     setselectedKey(event.key);
   };
 
-  useEffect(() => {
-    const fetchDetail = async () => {
-      await axios
-        .get(`${BACKEND_URL}/user`)
-        .then((response) => {
-          let users = response.data.map((user: any) => {
-            return {
-              user_id: user._id,
-              user_name: user.username,
-              user_desc: user.description,
-              img_url: user.imageUrl,
-            };
-          });
-
-          sessionStorage.setItem(`${MEME_STORAGE}users`, JSON.stringify(users));
-        })
-        .catch((error) => {
-          console.log(error.message);
+  const fetchCards = async () => {
+    console.log("fetch cards");
+    await axios
+      .get(`${BACKEND_URL}/meme`)
+      .then((response) => {
+        console.log(response.data);
+        let cards = response.data.map((card: any) => {
+          return {
+            key: card._id,
+            href: card.href,
+            like: card.like,
+            dislike: card.dislike,
+            download: card.download,
+            owner_id: card.owner_id,
+          };
         });
-    };
+
+        dispatch(addCardList(cards));
+      })
+      .catch((err) => {
+        console.log("error while fetching");
+      });
+  };
+  const fetchDetail = async () => {
+    await axios
+      .get(`${BACKEND_URL}/user`)
+      .then((response) => {
+        let users = response.data.map((user: any) => {
+          return {
+            user_id: user._id,
+            user_name: user.username,
+            user_desc: user.description,
+            img_url: user.imageUrl,
+          };
+        });
+        console.log("users", users);
+        dispatch(addUserList(users));
+        // sessionStorage.setItem(`${MEME_STORAGE}users`, JSON.stringify(users));
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchCards();
     fetchDetail();
   }, []);
 
@@ -61,7 +91,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(singleuser);
     if (singleuser && singleuser.user_id && singleuser.user_id !== "") {
       setauth(true);
       if (singleuser.img_url) setavatar_url(singleuser.img_url);

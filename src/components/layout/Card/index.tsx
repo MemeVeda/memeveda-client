@@ -8,15 +8,17 @@ import {
 import Badge from "../Badge/Badge";
 import "./Card.scss";
 import { MemeCardType, UserType } from "../../types/types";
-import { AVATAR_API, MEME_STORAGE } from "../../utils/contant";
+import { AVATAR_API } from "../../utils/contant";
 import { saveAs } from "file-saver";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const CustomCard = (props: {
   cardDetail: MemeCardType;
   updateDetail: Function;
 }) => {
   const { Meta } = Card;
-  console.log(props.cardDetail);
+  const usersData = useSelector((state: RootState) => state.user.users);
   const [cardOwner, setcardOwner] = useState<UserType>({
     user_id: "",
     user_desc: "",
@@ -50,11 +52,8 @@ const CustomCard = (props: {
 
   useEffect(() => {
     if (props.cardDetail.owner_id) {
-      let users = JSON.parse(
-        sessionStorage.getItem(`${MEME_STORAGE}users`) || "{}"
-      );
-      if (users && props.cardDetail.owner_id) {
-        let user = users.find((user: UserType) => {
+      if (usersData && props.cardDetail.owner_id) {
+        let user = usersData.find((user: UserType) => {
           return props.cardDetail.owner_id === user.user_id;
         });
         if (user) {

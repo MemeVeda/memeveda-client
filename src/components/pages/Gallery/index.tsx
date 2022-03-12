@@ -8,11 +8,14 @@ import Loader from "../../layout/Loader";
 import Notification from "../../layout/Notification";
 import { BACKEND_URL } from "../../utils/contant";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const Gallery = () => {
   const [memeData, setmemeData] = useState<MemeCardType[]>([]);
   const [loading, setloading] = useState(true);
 
+  const cardData = useSelector((state: RootState) => state.cards);
   const updateCardDetail = (cardDetail: MemeCardType) => {
     const key = cardDetail.key;
     setmemeData(
@@ -41,38 +44,51 @@ const Gallery = () => {
       });
   };
 
-  useEffect(() => {
-    const fetchMemeDetails = async () => {
-      await axios
-        .get(`${BACKEND_URL}/meme`)
-        .then((response) => {
-          console.log(response);
-          let cards: MemeCardType[] = response.data.map((card: any) => {
-            return {
-              key: card._id,
-              href: card.href,
-              like: card.like,
-              dislike: card.dislike,
-              download: card.download,
-              owner_id: card.owner_id,
-              tags: card.tags,
-            };
-          });
-          setloading(false);
-          Notification({
-            message: "fetch successfully",
-            icon: <CheckCircleOutlined />,
-            customClass: "Notification Notification__success",
-          });
-          setmemeData(cards);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    fetchMemeDetails();
-  }, []);
+  // useEffect(() => {
+  //   if (cards) {
+  //     setmemeData(cards);
+  //     setloading(false);
+  //   }
+  // }, []);
 
+  // useEffect(() => {
+  //   const fetchMemeDetails = async () => {
+  //     await axios
+  //       .get(`${BACKEND_URL}/meme`)
+  //       .then((response) => {
+  //         console.log(response);
+  //         let cards: MemeCardType[] = response.data.map((card: any) => {
+  //           return {
+  //             key: card._id,
+  //             href: card.href,
+  //             like: card.like,
+  //             dislike: card.dislike,
+  //             download: card.download,
+  //             owner_id: card.owner_id,
+  //             tags: card.tags,
+  //           };
+  //         });
+  //         setloading(false);
+  //         Notification({
+  //           message: "fetch successfully",
+  //           icon: <CheckCircleOutlined />,
+  //           customClass: "Notification Notification__success",
+  //         });
+  //         setmemeData(cards);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  //   fetchMemeDetails();
+  // }, []);
+
+  useEffect(() => {
+    if (cardData && cardData.length > 0) {
+      setmemeData(cardData);
+      setloading(false);
+    }
+  }, [cardData]);
   return (
     <>
       {loading ? (

@@ -4,7 +4,7 @@ export interface MemeCardType {
   like: number;
   dislike: number;
   download: number;
-  owner_id?: string;
+  owner_id: string;
 }
 
 export interface UserType {
