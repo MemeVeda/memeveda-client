@@ -23,7 +23,7 @@ export const counterSlice = createSlice({
     },
     addCardList: (state, action: PayloadAction<MemeCardType[]>) => {
       let curr_state = current(state);
-      return [...curr_state, ...action.payload];
+      return [...action.payload];
     },
   },
 });
