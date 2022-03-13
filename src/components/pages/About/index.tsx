@@ -4,6 +4,8 @@ import { Card, Col, Row } from "antd";
 import { Button } from "antd";
 import { text } from "stream/consumers";
 import { LinkedinFilled, GithubFilled } from "@ant-design/icons";
+import Shubham from "../../assets/shubham.jpeg";
+import Anubhab from "../../assets/anubhab.jpeg";
 
 const { Meta } = Card;
 
@@ -38,7 +40,10 @@ const About = () => {
               cover={
                 <img
                   alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  src={Shubham}
+                  style={{
+                    height: "20rem",
+                  }}
                 />
               }
               title="Shubham Thorat"
@@ -69,7 +74,10 @@ const About = () => {
               cover={
                 <img
                   alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  src={Anubhab}
+                  style={{
+                    height: "20rem",
+                  }}
                 />
               }
               title="Anubhab Ray"
@@ -101,6 +109,9 @@ const About = () => {
                 <img
                   alt="example"
                   src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                  style={{
+                    height: "20rem",
+                  }}
                 />
               }
               title="Kartikeya Singh"
