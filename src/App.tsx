@@ -87,9 +87,26 @@ function App() {
       fetchDetail();
     } else {
       dispatch(addUserList(redux_user_data.users));
-      dispatch(addUser(redux_user_data.currentuser));
+
+      if (redux_user_data.currentuser.user_name !== "") {
+        if (redux_user_data.currentuser.img_url)
+          setavatar_url(redux_user_data.currentuser.img_url);
+
+        setauth(true);
+        dispatch(addUser(redux_user_data.currentuser));
+      }
+
+      // dispatch(addUser(redux_user_data.currentuser));
     }
   }, []);
+
+  useEffect(() => {
+    if (redux_user_data.currentuser.user_name !== "") {
+      if (redux_user_data.currentuser.img_url)
+        setavatar_url(redux_user_data.currentuser.img_url);
+      setauth(true);
+    }
+  }, [redux_user_data]);
 
   const hideModal = () => {
     setloginModal(false);

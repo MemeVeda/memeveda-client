@@ -19,63 +19,7 @@ const Auth = (props: { visible: boolean; hideModal: Function }) => {
   const onCancel = () => {
     props.hideModal();
   };
-  const dispatch = useDispatch();
 
-  const onLogin = (values: any) => {
-    const { username, password } = values;
-    axios
-      .get(`${BACKEND_URL}/user/${username}`)
-      .then((docs) => {
-        const user_data = docs.data;
-
-        if (user_data !== null && user_data.password === password) {
-          dispatch(
-            addUser({
-              user_id: user_data._id,
-              img_url: user_data.imageUrl,
-              user_name: user_data.username,
-              user_desc: user_data.description,
-            })
-          );
-
-          props.hideModal();
-        } else {
-          Notification({
-            message: "Incorrect username or password",
-            icon: <CloseCircleOutlined />,
-            customClass: "Notification Notification__error",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const onSignUp = (values: any) => {
-    axios
-      .post(`${BACKEND_URL}/user`, {
-        username: values.username,
-        password: values.password,
-        description: values.description,
-        imageUrl: values.imageUrl,
-      })
-      .then((docs) => {
-        const user_data = docs.data;
-        dispatch(
-          addUser({
-            user_id: user_data._id,
-            img_url: user_data.imageUrl,
-            user_name: user_data.username,
-            user_desc: user_data.description,
-          })
-        );
-        props.hideModal();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // props.hideModal();
-  };
   return (
     <Modal
       visible={props.visible}
@@ -85,10 +29,10 @@ const Auth = (props: { visible: boolean; hideModal: Function }) => {
     >
       <Tabs defaultActiveKey="1" onChange={tabsChangeCallback}>
         <TabPane tab="Login" key="1">
-          {<Login onCancel={onCancel} onDataChange={onLogin} />}
+          {<Login onCancel={onCancel} onDataChange={onCancel} />}
         </TabPane>
         <TabPane tab="SignUp" key="2">
-          {<SignUp onCancel={onCancel} onDataChange={onSignUp} />}
+          {<SignUp onCancel={onCancel} onDataChange={onCancel} />}
         </TabPane>
       </Tabs>
     </Modal>

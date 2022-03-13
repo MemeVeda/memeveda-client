@@ -56,12 +56,12 @@ const CustomCard = (props: {
       let user = usersData.find((user: UserType) => {
         return props.cardDetail.owner_id === user.user_id;
       });
-      // console.log(user);
+      console.log(user);
       if (user) {
         setcardOwner(user);
       }
     }
-  }, []);
+  }, [cardOwner]);
 
   return (
     <Card
