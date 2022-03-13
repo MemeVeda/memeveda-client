@@ -51,14 +51,14 @@ const CustomCard = (props: {
   };
 
   useEffect(() => {
-    if (props.cardDetail.owner_id) {
-      if (usersData && props.cardDetail.owner_id) {
-        let user = usersData.find((user: UserType) => {
-          return props.cardDetail.owner_id === user.user_id;
-        });
-        if (user) {
-          setcardOwner(user);
-        }
+    // console.log(props.cardDetail);
+    if (usersData && props.cardDetail.owner_id) {
+      let user = usersData.find((user: UserType) => {
+        return props.cardDetail.owner_id === user.user_id;
+      });
+      // console.log(user);
+      if (user) {
+        setcardOwner(user);
       }
     }
   }, []);
