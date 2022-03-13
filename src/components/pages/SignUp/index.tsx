@@ -3,6 +3,10 @@ import { Form, Input, Button, Checkbox, Space, Upload, Alert } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import "./SignUp.scss";
 import UploadImage from "../../layout/UploadImage";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { BACKEND_URL } from "../../utils/contant";
+import { addUser } from "../../redux/UserReducer";
 
 const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
   const [username, setusername] = useState("");
@@ -14,12 +18,14 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
   // const onFinish = (values: any) => {
   //   props.onDataChange(values);
   // };
+  const dispatch = useDispatch();
   const uploadFile = (image: string) => {
     setuploadImage(image);
   };
 
   const eventUploadError = (errorMessage: any) => {
     console.log(errorMessage);
+    setuploadImage("");
     seterrorMessage(errorMessage);
   };
   const handleSubmit = (e: any) => {
@@ -32,14 +38,31 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       seterrorMessage("password is required field");
       return;
     }
+
     seterrorMessage("");
-    props.onDataChange({
-      username: username,
-      password: password,
-      description: description,
-      remember: remember,
-      imageUrl: uploadImage,
-    });
+    axios
+      .post(`${BACKEND_URL}/user`, {
+        username: username,
+        password: password,
+        description: description,
+        imageUrl: uploadImage,
+      })
+      .then((docs) => {
+        const user_data = docs.data;
+        dispatch(
+          addUser({
+            user_id: user_data._id,
+            img_url: user_data.imageUrl,
+            user_name: user_data.username,
+            user_desc: user_data.description,
+          })
+        );
+        props.onDataChange();
+      })
+      .catch((err) => {
+        // console.log(err);
+        seterrorMessage("Username already exists!");
+      });
   };
   return (
     <Form
@@ -65,42 +88,24 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       ) : (
         <></>
       )}
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
-        <Input type="text" onChange={(e) => setusername(e.target.value)} />
+      <Form.Item label="Username" name="username">
+        <Input
+          type="text"
+          value={username}
+          onChange={(e) => setusername(e.target.value)}
+        />
       </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input.Password onChange={(e) => setpassword(e.target.value)} />
+      <Form.Item label="Password" name="password">
+        <Input.Password
+          value={password}
+          onChange={(e) => setpassword(e.target.value)}
+        />
       </Form.Item>
 
-      <Form.Item
-        label="Description"
-        name="description"
-        rules={[
-          {
-            message: "Please input your description!",
-          },
-        ]}
-      >
+      <Form.Item label="Description" name="description">
         <TextArea
+          value={description}
           maxLength={50}
           onChange={(e) => setdescription(e.target.value)}
         />

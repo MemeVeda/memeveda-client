@@ -16,6 +16,7 @@ const Gallery = () => {
   const [loading, setloading] = useState(true);
 
   const cardData = useSelector((state: RootState) => state.cards);
+  const usersData = useSelector((state: RootState) => state.user.users);
   const updateCardDetail = (cardDetail: MemeCardType) => {
     const key = cardDetail.key;
     setmemeData(
@@ -45,7 +46,7 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    if (cardData && cardData.length > 0) {
+    if (cardData && cardData.length > 0 && usersData.length > 0) {
       setmemeData(cardData);
       setloading(false);
     }

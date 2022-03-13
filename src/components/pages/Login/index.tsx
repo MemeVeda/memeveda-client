@@ -1,13 +1,17 @@
 import { Form, Input, Button, Checkbox, Alert } from "antd";
 import "./Login.scss";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
-
+import { addUser } from "../../redux/UserReducer";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { BACKEND_URL } from "../../utils/contant";
 const Login = (props: { onDataChange: Function; onCancel: Function }) => {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [remember, setremember] = useState(true);
   const [errorMessage, seterrorMessage] = useState("");
-
+  const dispatch = useDispatch();
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (username === "") {
@@ -19,11 +23,28 @@ const Login = (props: { onDataChange: Function; onCancel: Function }) => {
       return;
     }
     seterrorMessage("");
-    props.onDataChange({
-      username: username,
-      password: password,
-      remember: remember,
-    });
+    axios
+      .get(`${BACKEND_URL}/user/${username}`)
+      .then((docs) => {
+        const user_data = docs.data;
+        if (user_data !== null && user_data.password === password) {
+          dispatch(
+            addUser({
+              user_id: user_data._id,
+              img_url: user_data.imageUrl,
+              user_name: user_data.username,
+              user_desc: user_data.description,
+            })
+          );
+          props.onDataChange();
+        } else {
+          seterrorMessage("Incorrect username or password");
+        }
+      })
+      .catch((err) => {
+        seterrorMessage(err.message);
+        // console.log(err);
+      });
   };
 
   return (
