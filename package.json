@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@cloudinary/react": "^1.1.0",
+    "@cloudinary/url-gen": "^1.7.0",
     "@material-ui/core": "^4.12.3",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",

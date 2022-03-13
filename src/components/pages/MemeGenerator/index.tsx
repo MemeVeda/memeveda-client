@@ -12,6 +12,7 @@ import Notification from "../../layout/Notification";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { Checkbox, Modal } from "antd";
 import { useState } from "react";
+import imageUpload from "./fetchcloud";
 
 const MemeGenerator = () => {
   const singleuser = useSelector((state: RootState) => state.user);
@@ -47,10 +48,11 @@ const MemeGenerator = () => {
       let base64 = reader.result;
 
       if (check) {
-        await axios
+        imageUpload(base64, (url: string)=>{
+          axios
           .post(`${BACKEND_URL}/meme`, {
             owner_id: singleuser.user_id,
-            href: base64,
+            href: url,
           })
           .then((res) => {
             Notification({
@@ -63,6 +65,8 @@ const MemeGenerator = () => {
           .catch((err) => {
             console.log(err);
           });
+        });
+        
       }
     };
 
@@ -108,7 +112,7 @@ const MemeGenerator = () => {
             width: "100%",
             height: "91vh",
           },
-          menuBarPosition: "bottom",
+          menuBarPosition: "right",
         }}
         cssMaxHeight={750}
         cssMaxWidth={1000}
