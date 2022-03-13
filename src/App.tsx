@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./components/redux/store";
 import { MemeCardType } from "./components/types/types";
 import { addCardList } from "./components/redux/MemeReducer";
-import { addUserList } from "./components/redux/UserReducer";
+import { addUser, addUserList } from "./components/redux/UserReducer";
 
 function App() {
   const { Header } = Layout;
@@ -25,7 +25,8 @@ function App() {
   const [avatar_url, setavatar_url] = useState(
     "https://joeschmoe.io/api/v1/random"
   );
-  const singleuser = useSelector((state: RootState) => state.user.currentuser);
+  const redux_user_data = useSelector((state: RootState) => state.user);
+  const redux_card_data = useSelector((state: RootState) => state.cards);
 
   const dispatch = useDispatch();
   const [loginModal, setloginModal] = useState(false);
@@ -82,24 +83,24 @@ function App() {
   };
 
   useEffect(() => {
-    fetchCards();
-    fetchDetail();
+    console.log("redux card", redux_card_data);
+    console.log("single user", redux_user_data);
+    if (redux_card_data.length === 0) {
+      fetchCards();
+    } else {
+      dispatch(addCardList(redux_card_data));
+    }
+    if (redux_user_data === undefined || redux_card_data === null) {
+      fetchDetail();
+    } else {
+      dispatch(addUserList(redux_user_data.users));
+      dispatch(addUser(redux_user_data.currentuser));
+    }
   }, []);
 
   const hideModal = () => {
     setloginModal(false);
   };
-
-  useEffect(() => {
-    if (singleuser && singleuser.user_id && singleuser.user_id !== "") {
-      setauth(true);
-      if (singleuser.img_url) setavatar_url(singleuser.img_url);
-      sessionStorage.setItem(
-        `${MEME_STORAGE}singleuser`,
-        JSON.stringify(singleuser)
-      );
-    }
-  }, [singleuser]);
 
   return (
     <Layout className="App">
