@@ -11,7 +11,8 @@ import { RootState } from "../../redux/store";
 import Notification from "../../layout/Notification";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { Checkbox, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import imageUpload from "./fetchcloud";
 
 const MemeGenerator = () => {
   const singleuser = useSelector((state: RootState) => state.user.currentuser);
@@ -48,22 +49,24 @@ const MemeGenerator = () => {
       let base64 = reader.result;
 
       if (check) {
-        await axios
-          .post(`${BACKEND_URL}/meme`, {
-            owner_id: singleuser.user_id,
-            href: base64,
-          })
-          .then((res) => {
-            Notification({
-              message: "Upload Successfully",
-              icon: <CheckCircleOutlined />,
-              customClass: "Notification Notification__success",
+        imageUpload(base64, (url: string) => {
+          axios
+            .post(`${BACKEND_URL}/meme`, {
+              owner_id: singleuser.user_id,
+              href: url,
+            })
+            .then((res) => {
+              Notification({
+                message: "Upload Successfully",
+                icon: <CheckCircleOutlined />,
+                customClass: "Notification Notification__success",
+              });
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
             });
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        });
       }
     };
 
@@ -112,7 +115,7 @@ const MemeGenerator = () => {
             width: "100%",
             height: "91vh",
           },
-          menuBarPosition: "bottom",
+          menuBarPosition: "right",
         }}
         cssMaxHeight={750}
         cssMaxWidth={1000}
