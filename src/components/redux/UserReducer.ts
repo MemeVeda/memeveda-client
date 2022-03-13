@@ -22,8 +22,9 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action: PayloadAction<UserType>) => {
+      let curr_state = current(state);
       return {
-        ...state,
+        ...curr_state,
         currentuser: {
           user_id: action.payload.user_id,
           user_name: action.payload.user_name,
