@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button, Layout, Avatar, Image } from "antd";
 import "./App.scss";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import SideBar from "./components/layout/SideBar";
 import CustomContent from "./components/layout/CustomContent";
 import axios from "axios";
-import { BACKEND_URL, MEME_STORAGE } from "./components/utils/contant";
+import { BACKEND_URL } from "./components/utils/contant";
 import Auth from "./components/pages/Auth";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./components/redux/store";
-import { MemeCardType } from "./components/types/types";
 import { addCardList } from "./components/redux/MemeReducer";
 import { addUser, addUserList } from "./components/redux/UserReducer";
 
@@ -39,11 +34,11 @@ function App() {
   };
 
   const fetchCards = async () => {
-    console.log("fetch cards");
+    // console.log("fetch cards");
     await axios
       .get(`${BACKEND_URL}/meme`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         let cards = response.data.map((card: any) => {
           return {
             key: card._id,
@@ -73,7 +68,7 @@ function App() {
             img_url: user.imageUrl,
           };
         });
-        console.log("users", users);
+        // console.log("users", users);
         dispatch(addUserList(users));
         // sessionStorage.setItem(`${MEME_STORAGE}users`, JSON.stringify(users));
       })
@@ -83,14 +78,12 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("redux card", redux_card_data);
-    console.log("single user", redux_user_data);
     if (redux_card_data.length === 0) {
       fetchCards();
     } else {
       dispatch(addCardList(redux_card_data));
     }
-    if (redux_user_data === undefined || redux_card_data === null) {
+    if (redux_user_data.users.length === 0 || redux_card_data === undefined) {
       fetchDetail();
     } else {
       dispatch(addUserList(redux_user_data.users));

@@ -44,45 +44,6 @@ const Gallery = () => {
       });
   };
 
-  // useEffect(() => {
-  //   if (cards) {
-  //     setmemeData(cards);
-  //     setloading(false);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchMemeDetails = async () => {
-  //     await axios
-  //       .get(`${BACKEND_URL}/meme`)
-  //       .then((response) => {
-  //         console.log(response);
-  //         let cards: MemeCardType[] = response.data.map((card: any) => {
-  //           return {
-  //             key: card._id,
-  //             href: card.href,
-  //             like: card.like,
-  //             dislike: card.dislike,
-  //             download: card.download,
-  //             owner_id: card.owner_id,
-  //             tags: card.tags,
-  //           };
-  //         });
-  //         setloading(false);
-  //         Notification({
-  //           message: "fetch successfully",
-  //           icon: <CheckCircleOutlined />,
-  //           customClass: "Notification Notification__success",
-  //         });
-  //         setmemeData(cards);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  //   fetchMemeDetails();
-  // }, []);
-
   useEffect(() => {
     if (cardData && cardData.length > 0) {
       setmemeData(cardData);

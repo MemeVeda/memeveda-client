@@ -23,7 +23,7 @@ const MemeGenerator = () => {
 
   //@ts-ignore
   window.saveAs = (blob: Blob, imageName: string) => {
-    console.log(blob);
+    // console.log(blob);
     if (
       singleuser === undefined ||
       singleuser.user_id === undefined ||
@@ -61,7 +61,7 @@ const MemeGenerator = () => {
                 icon: <CheckCircleOutlined />,
                 customClass: "Notification Notification__success",
               });
-              console.log(res);
+              // console.log(res);
             })
             .catch((err) => {
               console.log(err);
@@ -117,8 +117,8 @@ const MemeGenerator = () => {
           },
           menuBarPosition: "right",
         }}
-        cssMaxHeight={750}
-        cssMaxWidth={1000}
+        cssMaxHeight={600}
+        cssMaxWidth={800}
         selectionStyle={{
           cornerSize: 20,
           rotatingPointOffset: 70,
