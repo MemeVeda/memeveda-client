@@ -39,6 +39,11 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       seterrorMessage("password is required field");
       return;
     }
+
+    if (description === "") {
+      seterrorMessage("description is required field");
+      return;
+    }
     seterrorMessage("");
 
     if (uploadImage !== "") {
