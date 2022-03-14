@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { BACKEND_URL } from "../../utils/contant";
 import { addUser } from "../../redux/UserReducer";
+import imageUpload from "../MemeGenerator/fetchcloud";
 
 const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
   const [username, setusername] = useState("");
@@ -38,31 +39,33 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
       seterrorMessage("password is required field");
       return;
     }
-
     seterrorMessage("");
-    axios
-      .post(`${BACKEND_URL}/user`, {
-        username: username,
-        password: password,
-        description: description,
-        imageUrl: uploadImage,
-      })
-      .then((docs) => {
-        const user_data = docs.data;
-        dispatch(
-          addUser({
-            user_id: user_data._id,
-            img_url: user_data.imageUrl,
-            user_name: user_data.username,
-            user_desc: user_data.description,
-          })
-        );
-        props.onDataChange();
-      })
-      .catch((err) => {
-        // console.log(err);
-        seterrorMessage("Username already exists!");
-      });
+
+    imageUpload(uploadImage, (url: string) => {
+      axios
+        .post(`${BACKEND_URL}/user`, {
+          username: username,
+          password: password,
+          description: description,
+          imageUrl: url,
+        })
+        .then((docs) => {
+          const user_data = docs.data;
+          dispatch(
+            addUser({
+              user_id: user_data._id,
+              img_url: user_data.imageUrl,
+              user_name: user_data.username,
+              user_desc: user_data.description,
+            })
+          );
+          props.onDataChange();
+        })
+        .catch((err) => {
+          // console.log(err);
+          seterrorMessage("Username already exists!");
+        });
+    });
   };
   return (
     <Form
