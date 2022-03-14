@@ -41,31 +41,7 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
     }
     seterrorMessage("");
 
-    if (uploadImage === "") {
-      axios
-        .post(`${BACKEND_URL}/user`, {
-          username: username,
-          password: password,
-          description: description,
-          imageUrl: AVATAR_API,
-        })
-        .then((docs) => {
-          const user_data = docs.data;
-          dispatch(
-            addUser({
-              user_id: user_data._id,
-              img_url: user_data.imageUrl,
-              user_name: user_data.username,
-              user_desc: user_data.description,
-            })
-          );
-          props.onDataChange();
-        })
-        .catch((err) => {
-          // console.log(err);
-          seterrorMessage("Username already exists!");
-        });
-    } else {
+    if (uploadImage !== "") {
       imageUpload(uploadImage, (url: string) => {
         axios
           .post(`${BACKEND_URL}/user`, {
@@ -91,6 +67,30 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
             seterrorMessage("Username already exists!");
           });
       });
+    } else {
+      axios
+        .post(`${BACKEND_URL}/user`, {
+          username: username,
+          password: password,
+          description: description,
+          imageUrl: AVATAR_API,
+        })
+        .then((docs) => {
+          const user_data = docs.data;
+          dispatch(
+            addUser({
+              user_id: user_data._id,
+              img_url: user_data.imageUrl,
+              user_name: user_data.username,
+              user_desc: user_data.description,
+            })
+          );
+          props.onDataChange();
+        })
+        .catch((err) => {
+          // console.log(err);
+          seterrorMessage("Username already exists!");
+        });
     }
   };
   return (
