@@ -5,7 +5,7 @@ import "./SignUp.scss";
 import UploadImage from "../../layout/UploadImage";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { BACKEND_URL } from "../../utils/contant";
+import { AVATAR_API, BACKEND_URL } from "../../utils/contant";
 import { addUser } from "../../redux/UserReducer";
 import imageUpload from "../MemeGenerator/fetchcloud";
 
@@ -41,13 +41,13 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
     }
     seterrorMessage("");
 
-    imageUpload(uploadImage, (url: string) => {
+    if (uploadImage === "") {
       axios
         .post(`${BACKEND_URL}/user`, {
           username: username,
           password: password,
           description: description,
-          imageUrl: url,
+          imageUrl: AVATAR_API,
         })
         .then((docs) => {
           const user_data = docs.data;
@@ -65,7 +65,33 @@ const SignUp = (props: { onDataChange: Function; onCancel: Function }) => {
           // console.log(err);
           seterrorMessage("Username already exists!");
         });
-    });
+    } else {
+      imageUpload(uploadImage, (url: string) => {
+        axios
+          .post(`${BACKEND_URL}/user`, {
+            username: username,
+            password: password,
+            description: description,
+            imageUrl: url,
+          })
+          .then((docs) => {
+            const user_data = docs.data;
+            dispatch(
+              addUser({
+                user_id: user_data._id,
+                img_url: user_data.imageUrl,
+                user_name: user_data.username,
+                user_desc: user_data.description,
+              })
+            );
+            props.onDataChange();
+          })
+          .catch((err) => {
+            // console.log(err);
+            seterrorMessage("Username already exists!");
+          });
+      });
+    }
   };
   return (
     <Form
