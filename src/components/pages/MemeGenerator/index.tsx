@@ -6,13 +6,14 @@ import stempmv from "../../assets/StartingTemplate.png";
 import { saveAs } from "file-saver";
 import axios from "axios";
 import { BACKEND_URL } from "../../utils/contant";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Notification from "../../layout/Notification";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { Checkbox, Modal } from "antd";
 import { useState } from "react";
 import imageUpload from "./fetchcloud";
+import { addCard } from "../../redux/MemeReducer";
 
 const MemeGenerator = () => {
   const singleuser = useSelector((state: RootState) => state.user.currentuser);
@@ -41,6 +42,7 @@ const MemeGenerator = () => {
     setconfirmModal(true);
   };
 
+  const dispatch = useDispatch();
   const handleOk = () => {
     if (outputBlob === undefined) return;
     let reader = new FileReader();
@@ -61,6 +63,18 @@ const MemeGenerator = () => {
                 icon: <CheckCircleOutlined />,
                 customClass: "Notification Notification__success",
               });
+
+              dispatch(
+                addCard({
+                  key: res.data._id,
+                  href: res.data.href,
+                  like: 0,
+                  dislike: 0,
+                  download: 0,
+                  owner_id: res.data.owner_id,
+                })
+              );
+
               // console.log(res);
             })
             .catch((err) => {
